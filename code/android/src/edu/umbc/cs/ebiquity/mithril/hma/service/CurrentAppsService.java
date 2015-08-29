@@ -37,14 +37,12 @@ import edu.umbc.cs.ebiquity.mithril.hma.data.AppContextData;
 
 public class CurrentAppsService extends IntentService {
 	private AppContextData appContextData;
-	private List<String> appList;
 	
 	public CurrentAppsService() {
 		super("CurrentAppsService");
 		
-		appList = new ArrayList<String>();
 		//This is a default contextual situation, ideally we should be able to use real context
-		appContextData = new AppContextData("John.Doe@gmail.com", "work", "research", "morning", "personal", appList);
+		appContextData = new AppContextData("John.Doe@gmail.com", "work", "research", "morning", "personal", HMAApplication.getAppList());
 	}
 
 	@Override
@@ -199,12 +197,15 @@ public class CurrentAppsService extends IntentService {
 //		jsonParam.put("time", appContextData.getTime());
 //		jsonParam.put("purpose", appContextData.getPurpose());
 
+		List<ApplicationInfo> listOfApplicationInfos = collectTheData();
 		JSONArray jsonArray = new JSONArray();
-		for(ApplicationInfo applicationInfo : collectTheData())
+		for(ApplicationInfo applicationInfo : listOfApplicationInfos) {
 			jsonArray.put(applicationInfo.name);
+			HMAApplication.addToAppList(applicationInfo.name);
 //		        	jsonArray.put("Facebook");
 //		        	jsonArray.put("Twitter");
 //		        	jsonArray.put("G+");
+		}
 		jsonParam.put("appsInstalled",jsonArray);
 		Log.d(HMAApplication.getCurrentAppsDebugTag(), jsonArray.toString());
 		

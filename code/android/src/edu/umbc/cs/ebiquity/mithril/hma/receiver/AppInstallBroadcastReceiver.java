@@ -5,7 +5,10 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.support.v4.app.NotificationCompat;
+import edu.umbc.cs.ebiquity.mithril.hma.HMAApplication;
 import edu.umbc.cs.ebiquity.mithril.hma.R;
 import edu.umbc.cs.ebiquity.mithril.hma.ui.NotificationView;
 
@@ -14,6 +17,7 @@ public class AppInstallBroadcastReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		String message = new String();
+		message = findNewlyInstalledApp(context);
 		if(intent.getAction() == "android.intent.action.PACKAGE_ADDED")
 			message = "New app installed: "+intent.getPackage();
 		else if(intent.getAction() == "android.intent.action.PACKAGE_CHANGED")
@@ -25,6 +29,20 @@ public class AppInstallBroadcastReceiver extends BroadcastReceiver {
 		else if(intent.getAction() == "android.intent.action.PACKAGE_REPLACED")
 			message = "A new version of application package: "+intent.getPackage()+"has been installed";
 		Notification(context, message);
+	}
+
+	private String findNewlyInstalledApp(Context context) {
+		for(ApplicationInfo appInfo : context.getPackageManager().getInstalledApplications(PackageManager.GET_META_DATA)) {
+			try {
+				if(appInfo.packageName != null) {
+					if(!HMAApplication.isInAppList(appInfo))
+						return appInfo.packageName;
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
 	}
 
 	public void Notification(Context context, String message) {
