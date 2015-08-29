@@ -1,11 +1,11 @@
 package edu.umbc.cs.ebiquity.mithril.hma.ui;
 
-import edu.umbc.cs.eibquity.mithril.hma.R;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
+import edu.umbc.cs.ebiquity.mithril.hma.R;
  
 public class NotificationView extends Activity {
     // Declare Variable

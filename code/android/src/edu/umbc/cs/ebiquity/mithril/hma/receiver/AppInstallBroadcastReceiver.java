@@ -6,8 +6,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+import edu.umbc.cs.ebiquity.mithril.hma.R;
 import edu.umbc.cs.ebiquity.mithril.hma.ui.NotificationView;
-import edu.umbc.cs.eibquity.mithril.hma.R;
 
 public class AppInstallBroadcastReceiver extends BroadcastReceiver {
 

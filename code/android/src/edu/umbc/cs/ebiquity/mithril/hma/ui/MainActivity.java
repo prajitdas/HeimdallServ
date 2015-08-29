@@ -17,9 +17,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import edu.umbc.cs.ebiquity.mithril.hma.CurrentApps;
+import edu.umbc.cs.ebiquity.mithril.hma.HMAApplication;
+import edu.umbc.cs.ebiquity.mithril.hma.R;
 import edu.umbc.cs.ebiquity.mithril.hma.service.CurrentAppsService;
-import edu.umbc.cs.eibquity.mithril.hma.R;
 
 public class MainActivity extends Activity {
 	private Intent mServiceIntent;
@@ -42,7 +42,7 @@ public class MainActivity extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		IntentFilter currentAppsServiceIntentFilter = new IntentFilter(CurrentApps.getConstDataCollectionComplete());
+		IntentFilter currentAppsServiceIntentFilter = new IntentFilter(HMAApplication.getConstDataCollectionComplete());
 		LocalBroadcastManager.getInstance(this).registerReceiver(onEvent, currentAppsServiceIntentFilter);
 	}
 	@Override
@@ -68,8 +68,8 @@ public class MainActivity extends Activity {
 		mStartSvcBtn = (Button) findViewById(R.id.startCurrentAppsSvcBtn);
 		
 		boolean acceptedOrNot;
-		if(preferences.contains(CurrentApps.getConstAcceptDecisionKey())) {
-			acceptedOrNot = preferences.getBoolean(CurrentApps.getConstAcceptDecisionKey(), false);
+		if(preferences.contains(HMAApplication.getConstAcceptDecisionKey())) {
+			acceptedOrNot = preferences.getBoolean(HMAApplication.getConstAcceptDecisionKey(), false);
 			if(acceptedOrNot) {
 				mAcceptAgreementBtn.setEnabled(false);
 				mStartSvcBtn.setEnabled(true);
@@ -90,7 +90,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Editor editor = preferences.edit();
-		        editor.putBoolean(CurrentApps.getConstAcceptDecisionKey(), true);
+		        editor.putBoolean(HMAApplication.getConstAcceptDecisionKey(), true);
 		        editor.commit();
 
 		        mStartSvcBtn.setEnabled(true);

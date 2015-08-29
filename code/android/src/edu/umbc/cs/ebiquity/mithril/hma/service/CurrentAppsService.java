@@ -29,9 +29,10 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.util.Patterns;
 import android.widget.Toast;
-import edu.umbc.cs.ebiquity.mithril.hma.CurrentApps;
+import edu.umbc.cs.ebiquity.mithril.hma.HMAApplication;
 import edu.umbc.cs.ebiquity.mithril.hma.data.AppContextData;
 
 public class CurrentAppsService extends IntentService {
@@ -52,7 +53,7 @@ public class CurrentAppsService extends IntentService {
 		sendTheData();
         
         /* Task complete now return */
-        Intent intentOnCompletionOfDataCollection = new Intent(CurrentApps.getConstDataCollectionComplete());
+        Intent intentOnCompletionOfDataCollection = new Intent(HMAApplication.getConstDataCollectionComplete());
 //        intentOnCompletionOfDataCollection.putExtra(CONST_LIST_OF_RUNNING_APPS_EXTRA, output.toString());
         LocalBroadcastManager.getInstance(this).sendBroadcast(intentOnCompletionOfDataCollection);
 	}
@@ -61,21 +62,23 @@ public class CurrentAppsService extends IntentService {
 	 * Collect running app info
 	 * @return 
 	 */
-	private List<String> collectTheData() {
+	private List<ApplicationInfo> collectTheData() {
 //		return activityManagerMethodOfCollectingAppData();
 		return packageManagerMethodOfCollectingAppData();
 	}
 	
-	private List<String> packageManagerMethodOfCollectingAppData() {
-		List<String> listOfInstalledApps = new ArrayList<String>();
-		StringBuffer output = new StringBuffer(); 
-		PackageManager packageManager = getPackageManager();
-		for(ApplicationInfo appInfo:packageManager.getInstalledApplications(PackageManager.GET_META_DATA)) {
-			listOfInstalledApps.add(appInfo.name);
-			output.append(appInfo.name);
-			output.append(",");
+	private List<ApplicationInfo> packageManagerMethodOfCollectingAppData() {
+		List<ApplicationInfo> listOfInstalledApps = new ArrayList<ApplicationInfo>();
+		for(ApplicationInfo appInfo : getPackageManager().getInstalledApplications(PackageManager.GET_META_DATA)) {
+			try {
+				if(appInfo.packageName != null) {
+					listOfInstalledApps.add(appInfo);
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
-//		Log.i(CurrentApps.getCurrentAppsDebugTag(), output.toString());
+//		Log.i(HMAApplication.getCurrentAppsDebugTag(), output.toString());
 		return listOfInstalledApps;
 	}
 
@@ -93,7 +96,7 @@ public class CurrentAppsService extends IntentService {
         	int currentIndex = appContextData.getAppsRunning().size()-1;
         	
 //        	output.append(appContextData.getAppsRunning().get(currentIndex));
-//        	Log.d(CurrentApps.getCurrentAppsDebugTag(), "Running task: " + appContextData.getAppsRunning().get(currentIndex) + "\n");
+//        	Log.d(HMAApplication.getCurrentAppsDebugTag(), "Running task: " + appContextData.getAppsRunning().get(currentIndex) + "\n");
         }
         return listOfInstalledApps;
 	}
@@ -108,7 +111,7 @@ public class CurrentAppsService extends IntentService {
 	 */
 	private void sendTheData() {
 		if(isOnline())
-			new SendDataToServerAsyncTask().execute();// for older method CurrentApps.getConstWebserviceUri());
+			new SendDataToServerAsyncTask().execute();// for older method HMAApplication.getConstWebserviceUri());
 	}
 
 	private class SendDataToServerAsyncTask extends AsyncTask<String, String, String> {
@@ -116,10 +119,10 @@ public class CurrentAppsService extends IntentService {
 		// Do the long-running work in here
 		@Override
 	    protected String doInBackground(String... params) {
-//			Log.d(CurrentApps.getCurrentAppsDebugTag(), "Loading contents...");
+//			Log.d(HMAApplication.getCurrentAppsDebugTag(), "Loading contents...");
 			publishProgress("Loading contents..."); // Calls onProgressUpdate()
 			try {
-//				Log.d(CurrentApps.getCurrentAppsDebugTag(), "Loading SOAP...");
+//				Log.d(HMAApplication.getCurrentAppsDebugTag(), "Loading SOAP...");
 				String reqXMLPrefix = "<?xml version=\"1.0\" ?><S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\"><S:Body><ns2:printString xmlns:ns2=\"http://webservice.hma.mithril.android.ebiquity.cs.umbc.edu/\"><arg0>";
 				String reqXMLPostfix = "</arg0></ns2:printString></S:Body></S:Envelope>";
 				
@@ -129,7 +132,7 @@ public class CurrentAppsService extends IntentService {
 				HttpURLConnection httpURLConnection = null;
 				try {
 					//Create connection
-					url = new URL(CurrentApps.getConstWebserviceUri());
+					url = new URL(HMAApplication.getConstWebserviceUri());
 					httpURLConnection = (HttpURLConnection)url.openConnection();
 					httpURLConnection.setRequestMethod("POST");
 					httpURLConnection.setRequestProperty("Content-type", "text/xml; charset=utf-8");
@@ -141,23 +144,23 @@ public class CurrentAppsService extends IntentService {
 					httpURLConnection.setDoOutput(true);
 					httpURLConnection.connect();
 					
-//					Log.d(CurrentApps.getCurrentAppsDebugTag(), "Hardcoded call starts...");
+//					Log.d(HMAApplication.getCurrentAppsDebugTag(), "Hardcoded call starts...");
 					//Send request
 					BufferedOutputStream out = new BufferedOutputStream(httpURLConnection.getOutputStream());
 					out.write(request.getBytes());
-//					Log.d(CurrentApps.getCurrentAppsDebugTag(), out.toString());
+//					Log.d(HMAApplication.getCurrentAppsDebugTag(), out.toString());
 					out.flush();
 					out.close();
-//					Log.d(CurrentApps.getCurrentAppsDebugTag(), "Hardcoded call ends...");
+//					Log.d(HMAApplication.getCurrentAppsDebugTag(), "Hardcoded call ends...");
 
 					//Get Response	
 					InputStream in = new BufferedInputStream(httpURLConnection.getInputStream());
-//					Log.d(CurrentApps.getCurrentAppsDebugTag(), "Input stream reading...");
+//					Log.d(HMAApplication.getCurrentAppsDebugTag(), "Input stream reading...");
 					resp = convertInputStreamToString(in);
-//					Log.d(CurrentApps.getCurrentAppsDebugTag(), "Read from server: "+resp);
+//					Log.d(HMAApplication.getCurrentAppsDebugTag(), "Read from server: "+resp);
 				} catch (IOException e) {
 					// writing exception to log
-					e.printStackTrace();//(CurrentApps.getCurrentAppsDebugTag(), e.getStackTrace().toString());
+					e.printStackTrace();//(HMAApplication.getCurrentAppsDebugTag(), e.getStackTrace().toString());
 				} catch (Exception e) {
 					e.printStackTrace();
 					return null;
@@ -185,7 +188,7 @@ public class CurrentAppsService extends IntentService {
 	}
 
 	private String writeDataToStream() throws JSONException, IOException {
-//		Log.d(CurrentApps.getCurrentAppsDebugTag(), "Loading JSON...");
+//		Log.d(HMAApplication.getCurrentAppsDebugTag(), "Loading JSON...");
 		setRealData();
 		// Add your data
 		//Create JSONObject here 
@@ -197,12 +200,13 @@ public class CurrentAppsService extends IntentService {
 //		jsonParam.put("purpose", appContextData.getPurpose());
 
 		JSONArray jsonArray = new JSONArray();
-		for(String appPackageName:collectTheData())
-		jsonArray.put(appPackageName);
+		for(ApplicationInfo applicationInfo : collectTheData())
+			jsonArray.put(applicationInfo.name);
 //		        	jsonArray.put("Facebook");
 //		        	jsonArray.put("Twitter");
 //		        	jsonArray.put("G+");
 		jsonParam.put("appsInstalled",jsonArray);
+		Log.d(HMAApplication.getCurrentAppsDebugTag(), jsonArray.toString());
 		
 		return jsonParam.toString();
 	}
@@ -235,7 +239,7 @@ public class CurrentAppsService extends IntentService {
 	    for (Account account : accounts)
 	        if (emailPattern.matcher(account.name).matches())
 	        	appContextData.setIdentity(account.name);//possibleEmail
-//	    Log.i(CurrentApps.getCurrentAppsDebugTag(),appContextData.getIdentity());
+//	    Log.i(HMAApplication.getCurrentAppsDebugTag(),appContextData.getIdentity());
 	}
 
 	private static String convertInputStreamToString(InputStream inputStream) throws IOException{
@@ -245,7 +249,7 @@ public class CurrentAppsService extends IntentService {
         while((line = bufferedReader.readLine()) != null)
             result += line;
         inputStream.close();
-//		Log.d(CurrentApps.getCurrentAppsDebugTag(), "Input stream reading complete...");
+//		Log.d(HMAApplication.getCurrentAppsDebugTag(), "Input stream reading complete...");
         return result;
     }
 
