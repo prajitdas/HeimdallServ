@@ -1,5 +1,8 @@
 package edu.umbc.cs.ebiquity.mithril.hma.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,6 +10,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
@@ -20,10 +25,15 @@ import android.widget.Toast;
 import edu.umbc.cs.ebiquity.mithril.hma.HMAApplication;
 import edu.umbc.cs.ebiquity.mithril.hma.R;
 import edu.umbc.cs.ebiquity.mithril.hma.service.CurrentAppsService;
+import edu.umbc.cs.ebiquity.mithril.hma.util.AppsAdapter;
 
 public class MainActivity extends Activity {
 	private Intent mServiceIntent;
 	
+//	private TextView mTextViewPermissionInfo;
+	private PackageManager packageManager;
+	private List<ApplicationInfo> appsList;
+	private AppsAdapter listAdapter;
 	private TextView mCurrentAppsDataCollectionAgreementTxtView;
 	private Button mAcceptAgreementBtn;
 	private Button mStartSvcBtn;
@@ -35,6 +45,10 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		/**
+		 * If you want to load the apps this is what you do
+		new LoadApps().execute();
+		 */
 		init();
 		setOnClickListeners();
 	}
@@ -60,6 +74,9 @@ public class MainActivity extends Activity {
 
 	private void init() {
 		preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+		packageManager = getApplicationContext().getPackageManager();
+		appsList = new ArrayList<ApplicationInfo>();
 
 		mCurrentAppsDataCollectionAgreementTxtView = (TextView) findViewById(R.id.currentAppsDataCollectionAgreementTxtView);
 		mCurrentAppsDataCollectionAgreementTxtView.setText(R.string.agreementText);

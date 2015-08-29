@@ -16,5 +16,9 @@
     <string name="notificationtitle">Current Apps Notification</string>
     <string name="lbltitle">"Title: "</string>
     <string name="lbltext">"Text: "</string>
-
+    <string name="large_sample_text_for_list_view">Large Text</string>
+    <string name="default_app_permissions_header_text">Header Text</string>
+    <string name="small_sample_text_for_list_view">Small Text</string>
+    <string name="title_activity_view_permissions">ViewPermissionsActivity</string>
+    
 </resources>
