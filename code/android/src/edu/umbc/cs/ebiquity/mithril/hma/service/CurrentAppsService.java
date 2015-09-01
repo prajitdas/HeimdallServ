@@ -25,6 +25,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -34,9 +35,12 @@ import android.util.Patterns;
 import android.widget.Toast;
 import edu.umbc.cs.ebiquity.mithril.hma.HMAApplication;
 import edu.umbc.cs.ebiquity.mithril.hma.data.AppContextData;
+import edu.umbc.cs.ebiquity.mithril.hma.util.HMADBHelper;
 
 public class CurrentAppsService extends IntentService {
 	private AppContextData appContextData;
+	private static HMADBHelper hmaDBHelper;
+	private static SQLiteDatabase hmaDB;
 	
 	public CurrentAppsService() {
 		super("CurrentAppsService");
@@ -60,11 +64,30 @@ public class CurrentAppsService extends IntentService {
 	 * Collect running app info
 	 * @return 
 	 */
-	private List<ApplicationInfo> collectTheData() {
+	private List<String> collectTheData() {
 //		return activityManagerMethodOfCollectingAppData();
-		return packageManagerMethodOfCollectingAppData();
+//		return packageManagerMethodOfCollectingAppData();
+		return databaseData();
 	}
 	
+	private void initDB() {
+		/**
+		 * Database creation and default data insertion, happens only once.
+		 */
+		hmaDBHelper = new HMADBHelper(getApplicationContext());
+		hmaDB = hmaDBHelper.getWritableDatabase();
+	}
+	
+	private List<String> databaseData() {
+		initDB();
+		List<String> result = new ArrayList<String>();
+		for(String app:hmaDBHelper.readApps(hmaDB)) {
+			result.add(app);
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unused")
 	private List<ApplicationInfo> packageManagerMethodOfCollectingAppData() {
 		List<ApplicationInfo> listOfInstalledApps = new ArrayList<ApplicationInfo>();
 		for(ApplicationInfo appInfo : getPackageManager().getInstalledApplications(PackageManager.GET_META_DATA)) {
@@ -197,11 +220,11 @@ public class CurrentAppsService extends IntentService {
 //		jsonParam.put("time", appContextData.getTime());
 //		jsonParam.put("purpose", appContextData.getPurpose());
 
-		List<ApplicationInfo> listOfApplicationInfos = collectTheData();
+		List<String> listOfApplicationInfos = collectTheData();
 		JSONArray jsonArray = new JSONArray();
-		for(ApplicationInfo applicationInfo : listOfApplicationInfos) {
-			jsonArray.put(applicationInfo.name);
-			HMAApplication.addToAppList(applicationInfo.name);
+		for(String applicationInfo : listOfApplicationInfos) {
+			jsonArray.put(applicationInfo);
+			HMAApplication.addToAppList(applicationInfo);
 //		        	jsonArray.put("Facebook");
 //		        	jsonArray.put("Twitter");
 //		        	jsonArray.put("G+");
