@@ -1,13 +1,10 @@
 package edu.umbc.cs.ebiquity.mithril.hma.ui;
 
-import edu.umbc.cs.ebiquity.mithril.hma.R;
-import edu.umbc.cs.ebiquity.mithril.hma.R.id;
-import edu.umbc.cs.ebiquity.mithril.hma.R.layout;
-import edu.umbc.cs.ebiquity.mithril.hma.R.menu;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import edu.umbc.cs.ebiquity.mithril.hma.R;
 
 public class SendAppDataToServerActivity extends Activity {
 
