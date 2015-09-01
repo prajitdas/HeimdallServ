@@ -207,7 +207,7 @@ public class CurrentAppsService extends IntentService {
 //		        	jsonArray.put("G+");
 		}
 		jsonParam.put("appsInstalled",jsonArray);
-		Log.d(HMAApplication.getCurrentAppsDebugTag(), jsonArray.toString());
+		Log.d(HMAApplication.getDebugTag(), jsonArray.toString());
 		
 		return jsonParam.toString();
 	}

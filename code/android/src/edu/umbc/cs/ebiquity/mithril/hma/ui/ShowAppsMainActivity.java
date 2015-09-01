@@ -1,7 +1,8 @@
 package edu.umbc.cs.ebiquity.mithril.hma.ui;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -12,9 +13,11 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,23 +25,28 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+
 import edu.umbc.cs.ebiquity.mithril.hma.HMAApplication;
 import edu.umbc.cs.ebiquity.mithril.hma.R;
+import edu.umbc.cs.ebiquity.mithril.hma.data.AppListJson;
 import edu.umbc.cs.ebiquity.mithril.hma.service.CurrentAppsService;
-import edu.umbc.cs.ebiquity.mithril.hma.util.AppsAdapter;
+import edu.umbc.cs.ebiquity.mithril.hma.util.HMADBHelper;
 
-public class MainActivity extends Activity {
+public class ShowAppsMainActivity extends Activity {
 	private Intent mServiceIntent;
 	
 //	private TextView mTextViewPermissionInfo;
-	private PackageManager packageManager;
-	private List<ApplicationInfo> appsList;
-	private AppsAdapter listAdapter;
+//	private PackageManager packageManager;
+//	private List<ApplicationInfo> appsList;
+//	private AppsAdapter listAdapter;
 	private TextView mCurrentAppsDataCollectionAgreementTxtView;
 	private Button mAcceptAgreementBtn;
 	private Button mStartSvcBtn;
 	
-	private SharedPreferences preferences;
+	private static HMADBHelper hmaDBHelper;
+	private static SQLiteDatabase hmaDB;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +57,16 @@ public class MainActivity extends Activity {
 		 * If you want to load the apps this is what you do
 		new LoadApps().execute();
 		 */
-		init();
+		initDB();
+		initViews();
 		setOnClickListeners();
+		storeListOfAppsInstalled();
+		StringBuffer result = new StringBuffer();
+		for(String app:hmaDBHelper.readApps(hmaDB)) {
+			result.append(app);
+		}
+		
+		Log.d(HMAApplication.getDebugTag(), "List has: "+result.toString());
 	}
 	
 	@Override
@@ -72,11 +88,20 @@ public class MainActivity extends Activity {
 		}
 	};
 
-	private void init() {
-		preferences = PreferenceManager.getDefaultSharedPreferences(this);
+	private void initDB() {
+		/**
+		 * Database creation and default data insertion, happens only once.
+		 */
+		hmaDBHelper = new HMADBHelper(this);
+		hmaDB = hmaDBHelper.getWritableDatabase();
+	}
+	
+	private void initViews() {
+//		File file = new File(getFilesDir(), HMAApplication.getApplistFilename());
+		HMAApplication.setPreferences(PreferenceManager.getDefaultSharedPreferences(this));
 
-		packageManager = getApplicationContext().getPackageManager();
-		appsList = new ArrayList<ApplicationInfo>();
+//		packageManager = getApplicationContext().getPackageManager();
+//		appsList = new ArrayList<ApplicationInfo>();
 
 		mCurrentAppsDataCollectionAgreementTxtView = (TextView) findViewById(R.id.currentAppsDataCollectionAgreementTxtView);
 		mCurrentAppsDataCollectionAgreementTxtView.setText(R.string.agreementText);
@@ -85,8 +110,8 @@ public class MainActivity extends Activity {
 		mStartSvcBtn = (Button) findViewById(R.id.startCurrentAppsSvcBtn);
 		
 		boolean acceptedOrNot;
-		if(preferences.contains(HMAApplication.getConstAcceptDecisionKey())) {
-			acceptedOrNot = preferences.getBoolean(HMAApplication.getConstAcceptDecisionKey(), false);
+		if(HMAApplication.getPreferences().contains(HMAApplication.getConstAcceptDecisionKey())) {
+			acceptedOrNot = HMAApplication.getPreferences().getBoolean(HMAApplication.getConstAcceptDecisionKey(), false);
 			if(acceptedOrNot) {
 				mAcceptAgreementBtn.setEnabled(false);
 				mStartSvcBtn.setEnabled(true);
@@ -101,12 +126,45 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	private void storeListOfAppsInstalled() {
+		AppListJson appListJson = new AppListJson();
+		for(ApplicationInfo appInfo : getPackageManager().getInstalledApplications(PackageManager.GET_META_DATA)) {
+			try {
+				if(appInfo.packageName != null)
+					appListJson.appList.add(appInfo.packageName);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		Gson gson = new Gson();
+		String jsonData = gson.toJson(appListJson);
+		SharedPreferences.Editor appListEditor = HMAApplication.getPreferences().edit();
+		appListEditor.putString("appListJson", jsonData);
+		appListEditor.commit();
+		writeToFile(jsonData);
+	}
+
+	private void writeToFile(String data) {
+		FileOutputStream outputStream;
+	    try { 
+	    	outputStream = openFileOutput(HMAApplication.getApplistFilename(), Context.MODE_PRIVATE);
+	    	outputStream.write(data.getBytes());
+	    	outputStream.close();
+	    } 
+	    catch (FileNotFoundException e) {
+	        Log.e("Exception", "File write failed: " + e.toString());
+	    }  
+	    catch (IOException e) {
+	        Log.e("Exception", "File write failed: " + e.toString());
+	    }  
+	} 
+	
 	private void setOnClickListeners() {
 		mAcceptAgreementBtn.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				Editor editor = preferences.edit();
+				Editor editor = HMAApplication.getPreferences().edit();
 		        editor.putBoolean(HMAApplication.getConstAcceptDecisionKey(), true);
 		        editor.commit();
 
