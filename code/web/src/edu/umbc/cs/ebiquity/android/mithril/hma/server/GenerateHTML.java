@@ -99,22 +99,22 @@ public class GenerateHTML {
 "<div class=\"well hero-unit\">\n" +
 "          <div class=\"row placeholders\">\n" +
 "            <div class=\"col-xs-6 col-sm-3 placeholder\">\n" +
-"              <img HEIGHT=100 WIDTH=100 src= \"AdminDashboard_files/AndroidApp.png\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
+"              <img HEIGHT=100 WIDTH=100 src= \"https://raw.githubusercontent.com/Ebiquity/Mithril/master/Icon%20Resource/androidWithShieldHMA.png?token=ACkeVrhJ_aBI_X098hjS9UUc2Lu26bFXks5V77PmwA%3D%3D\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
 "              <h4>Overall User Statistics</h4>\n" +
 "              <!--<span class=\"text-muted\">Complete </span>-->\n" +
 "            </div>\n" +
 "            <div class=\"col-xs-6 col-sm-3 placeholder\">\n" +
-"              <img HEIGHT=100 WIDTH=100 src= \"AdminDashboard_files/AndroidApp.png\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
+"              <img HEIGHT=100 WIDTH=100 src= \"https://raw.githubusercontent.com/Ebiquity/Mithril/master/Icon%20Resource/androidWithShieldHMA.png?token=ACkeVrhJ_aBI_X098hjS9UUc2Lu26bFXks5V77PmwA%3D%3D\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
 "              <h4>Today's User Statistics</h4>\n" +
 "              <!--<span class=\"text-muted\">UMBC</span>-->\n" +
 "            </div>\n" +
 "            <div class=\"col-xs-6 col-sm-3 placeholder\">\n" +
-"              <img HEIGHT=100 WIDTH=100 src= \"AdminDashboard_files/AndroidApp.png\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
+"              <img HEIGHT=100 WIDTH=100 src= \"https://raw.githubusercontent.com/Ebiquity/Mithril/master/Icon%20Resource/androidWithShieldHMA.png?token=ACkeVrhJ_aBI_X098hjS9UUc2Lu26bFXks5V77PmwA%3D%3D\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
 "              <h4>Security Events</h4>\n" +
 "              <!--<span class=\"text-muted\">UMBC</span>-->\n" +
 "            </div>\n" +
 "            <div class=\"col-xs-6 col-sm-3 placeholder\">\n" +
-"              <img HEIGHT=100 WIDTH=100 src= \"AdminDashboard_files/AndroidApp.png\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
+"              <img HEIGHT=100 WIDTH=100 src= \"https://raw.githubusercontent.com/Ebiquity/Mithril/master/Icon%20Resource/androidWithShieldHMA.png?token=ACkeVrhJ_aBI_X098hjS9UUc2Lu26bFXks5V77PmwA%3D%3D\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
 "              <h4>Actions Recommended</h4>\n" +
 "              <!--<span class=\"text-muted\">UMBC</span>-->\n" +
 "            </div>\n" +
