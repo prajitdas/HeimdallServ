@@ -278,12 +278,12 @@ public class ShowAppsMainActivity extends ListActivity implements ConnectionCall
 		// updates. Gets the best and most recent location currently available, which may be null 
 		// in rare cases when a location is not available. 
 	    mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-	    if (mLastLocation != null) {
-	        mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
-	        mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
-	    } else { 
-	        Toast.makeText(this, R.string.no_location_detected, Toast.LENGTH_LONG).show();
-	    } 
+//	    if (mLastLocation != null) {
+//	        mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
+//	        mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
+//	    } else { 
+//	        Toast.makeText(this, R.string.no_location_detected, Toast.LENGTH_LONG).show();
+//	    } 
 	}
 
     @Override 

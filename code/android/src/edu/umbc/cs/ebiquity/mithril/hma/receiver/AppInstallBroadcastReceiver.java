@@ -18,7 +18,6 @@ public class AppInstallBroadcastReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		webserviceHelper = new WebserviceHelper(context);
-		Log.d(HMAApplication.getDebugTag(), "intent received");
 		/**
 		 * Broadcast Action: A new application package has been installed on the device. The data contains the name of the package. Note that the newly installed package does not receive this broadcast.
 		 * May include the following extras:
@@ -28,9 +27,12 @@ public class AppInstallBroadcastReceiver extends BroadcastReceiver {
 		 * Constant Value: "android.intent.action.PACKAGE_ADDED"
 		 */
 		if(intent.getAction() == "android.intent.action.PACKAGE_ADDED") {
+			Log.d(HMAApplication.getDebugTag(), "intent received");
 			Notification(context, "New app installed is: " + webserviceHelper.findNewlyInstalledApp(Intent.EXTRA_UID));
 			webserviceHelper.collectTheData();
+			Log.d(HMAApplication.getDebugTag(), "data collected");
 			webserviceHelper.sendTheData();
+			Log.d(HMAApplication.getDebugTag(), "data sent");
 		}
 		/**
 		 * Broadcast Action: An existing application package has been changed (e.g. a component has been enabled or disabled). The data contains the name of the package.

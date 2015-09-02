@@ -29,6 +29,18 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.NotificationView" />
+
+        <activity
+            android:name=".ui.ViewPermissionsActivity"
+            android:label="@string/title_activity_view_permissions" >
+        </activity>
+
+        <activity
+            android:name=".ui.SendAppDataToServerActivity"
+            android:label="@string/title_activity_send_app_data_to_server" >
+        </activity>
+
         <service
             android:name=".service.CurrentAppsService"
             android:exported="false" >
@@ -44,18 +56,9 @@
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
-
-        <activity android:name=".ui.NotificationView" >
-        </activity>
-        <activity
-            android:name=".ui.SyncAppDataActivity"
-            android:label="@string/title_activity_sync_app_data" >
-        </activity>
-        <activity
-            android:name=".ui.SendAppDataToServerActivity"
-            android:label="@string/title_activity_send_app_data_to_server" >
-        </activity>
-        <meta-data android:name="com.google.android.gms.version" />
+        
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
-
 </manifest>
