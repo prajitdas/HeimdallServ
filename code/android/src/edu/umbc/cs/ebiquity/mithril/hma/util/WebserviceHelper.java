@@ -143,13 +143,17 @@ public class WebserviceHelper {
 
 //		collectTheData();
 		JSONArray jsonArray = new JSONArray();
+		int count = 0;
 		for(String applicationInfo : getCurrentlyInstalledAppsList()) {
+			if(count > 3)
+				break;
 			jsonArray.put(applicationInfo);
 //			HMAApplication.addToAppList(applicationInfo);
 //			        	jsonArray.put("Facebook");
 //			        	jsonArray.put("Twitter");
 //			        	jsonArray.put("G+");
 //			Log.d(HMAApplication.getDebugTag(), "in application info writing JSON");
+			count += 1;
 		}
 		jsonParam.put("currentApps",jsonArray);
 		

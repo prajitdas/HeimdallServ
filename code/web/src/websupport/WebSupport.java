@@ -23,7 +23,7 @@ public class WebSupport {
     public static void main(String[] args) {
         // TODO code application logic here
         storage = new Storage();
-        Endpoint.publish("http://localhost:1234/ws/datamanager", new DataManagerImpl());
+        Endpoint.publish("http://eb4.cs.umbc.edu:1234/ws/datamanager", new DataManagerImpl());
         
     }
     
