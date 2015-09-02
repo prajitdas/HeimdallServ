@@ -30,6 +30,7 @@ import org.json.simple.parser.ParseException;
 public class Storage {
     private ArrayList<String> storageContents = new ArrayList<>();
     public HashMap<String,ArrayList<String>> contents = new HashMap<>();
+    public HashMap<String,String> newAppInfo = new HashMap<>();
     private String permanentStorage = "per.storage";
     
     public Storage() {
@@ -46,7 +47,8 @@ public class Storage {
         JSONObject jobjName = (JSONObject)jsonParser.parse(line);
         AppContents appContents = new AppContents();
         appContents.userName = (String)jobjName.get("identity");
-        JSONArray appList = (JSONArray)jobjName.get("appsInstalled");
+        JSONArray appList = (JSONArray)jobjName.get("currentApps");
+        appContents.modifiedApp = (String)jobjName.get("modifiedApp");
         for (int j = 0; j < appList.size(); j++) {
             appContents.appList.add((String)appList.get(j));
         }
@@ -65,7 +67,7 @@ public class Storage {
         ArrayList<String> installedAppsStorage = contents.get(appContents.userName);
         if (contents.containsKey(appContents.userName)) {
             ArrayList<String> installedAppsNew = appContents.appList;
-            
+            newAppInfo.put(appContents.userName, appContents.modifiedApp);
             for (int i = 0; i < installedAppsNew.size(); i++) {
                 Boolean found = Boolean.FALSE;
                 String thisApp = installedAppsNew.get(i);
@@ -83,6 +85,7 @@ public class Storage {
         }
         else {
             contents.put(appContents.userName, appContents.appList);
+            newAppInfo.put(appContents.userName, appContents.modifiedApp);
         }
     }
     
@@ -106,26 +109,56 @@ public class Storage {
         String retString = "";
         while (it.hasNext()) {
             Map.Entry thisEntry = (Map.Entry < String, ArrayList<String>>)it.next();
+            String email = (String) thisEntry.getKey();
+            String name = email;
+            if (email.contains("@")) {
+                name = email.substring(0, email.indexOf("@"));
+            }
             retString = retString + "<tr>"
                     + "<td>" 
-                    + thisEntry.getKey() 
+                    + name 
                     + "</td>";
-            ArrayList<String> applist = (ArrayList<String>)thisEntry.getValue();
             retString = retString 
                     + "<td>" 
+                    + email 
+                    + "</td>";
+            retString = retString 
+                    + "<td>" 
+                    +  newAppInfo.get(email)
+                    + "</td>";
+            retString = retString +
+//                    "<td  class=\"user-actions\">\n" +
+//"                          <span>\n" +
+//"                            <a class=\"label label-success\" href=\"javascript:void(0);\">....Info...</a> \n" +
+//"                          </span>\n" +
+//"                      </td>" +
+                    "<td class = \"pagination-centered text-centered\">\n" +
+"                        <div class=\"btn-group\">\n" +
+"                            <a class=\"btn\" href=\".\"><i class=\"icon-user\"></i> Apps</a>\n" +
+"                            <a class=\"btn dropdown-toggle\" href=\".\" data-toggle=\"dropdown\">\n" +
+"                                <span class=\"caret\"></span>\n" +
+"                            </a>\n" +
+"                            <ul class=\"dropdown-menu\">";
+            
+            ArrayList<String> applist = (ArrayList<String>)thisEntry.getValue();
+            retString = retString  
+                    + "<li><a href=\".\">"
                     + applist.get(0)
-                    + "</td>"
-                    + "</tr>" ;
+                    + "</a></li>";
+            
             for (int i = 1; i < ((ArrayList<String>)thisEntry.getValue()).size(); i++) {
                 retString = retString 
-                        + "<tr>"
-                        + "<td>"
-                        + "</td>"
-                        + "<td>"
-                        + applist.get(i)
-                        + "</td>"
-                        + "</tr>";           
+                        + "<li class=\"divider\"></li>"
+                    + "<li><a href=\".\">"
+                    + applist.get(i)
+                    + "</a></li>";
+                
             }
+            retString = retString +
+                    "</ul>\n" +
+"                        </div>\n" +
+"                      </td>\n" +
+"                  </tr>";
         }
         return retString;
     }

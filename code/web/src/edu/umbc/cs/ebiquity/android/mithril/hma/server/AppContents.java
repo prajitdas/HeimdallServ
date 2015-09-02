@@ -14,5 +14,6 @@ import java.util.ArrayList;
 public class AppContents {
     public String userName;
     public ArrayList<String> appList = new ArrayList<>();
+    public String modifiedApp = "";
         
 }

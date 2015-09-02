@@ -28,10 +28,9 @@ public class GenerateHTML {
 //   / pubilc String templateFile = "";
     public GenerateHTML(String input, String outputFileName) {
         String html = "<!DOCTYPE html>\n" +
-"<!-- saved from url=(0043)http://getbootstrap.com/examples/dashboard/ -->\n" +
-"<html lang=\"en\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n"
-                + "<meta http-equiv=\"refresh\" content=\"5\"; URL=\".\">" +
-"    <meta charset=\"utf-8\">\n" +
+"<!-- saved from url=(0043)http:// -->\n" +
+"<html lang=\"en\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n" +
+"<meta http-equiv=\"refresh\" content=\"100\"; URL=\".\">    <meta charset=\"utf-8\">\n" +
 "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n" +
 "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
 "    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->\n" +
@@ -39,7 +38,7 @@ public class GenerateHTML {
 "    <meta name=\"author\" content=\"\">\n" +
 "    <link rel=\"icon\" href=\"http://getbootstrap.com/favicon.ico\">\n" +
 "\n" +
-"    <title>Dashboard Template for Bootstrap</title>\n" +
+"    <title>Heimdall Dashboard</title>\n" +
 "\n" +
 "    <!-- Bootstrap core CSS -->\n" +
 "    <link href=\"http://getbootstrap.com/dist/css/bootstrap.min.css\" rel=\"stylesheet\">\n" +
@@ -69,14 +68,14 @@ public class GenerateHTML {
 "            <span class=\"icon-bar\"></span>\n" +
 "            <span class=\"icon-bar\"></span>\n" +
 "          </button>\n" +
-"          <a class=\"navbar-brand\" href=\"http://getbootstrap.com/examples/dashboard/#\">App Analytics</a>\n" +
+"          <a class=\"navbar-brand\" href=\"http://getbootstrap.com/examples/dashboard/#\">Heimdall Inc.</a>\n" +
 "        </div>\n" +
 "        <div id=\"navbar\" class=\"navbar-collapse collapse\">\n" +
 "          <ul class=\"nav navbar-nav navbar-right\">\n" +
-"            <li><a href=\"http://getbootstrap.com/examples/dashboard/#\">Dashboard</a></li>\n" +
-"            <li><a href=\"http://getbootstrap.com/examples/dashboard/#\">Settings</a></li>\n" +
-"            <li><a href=\"http://getbootstrap.com/examples/dashboard/#\">Profile</a></li>\n" +
-"            <li><a href=\"http://getbootstrap.com/examples/dashboard/#\">Help</a></li>\n" +
+"            <li><a href=\".\">Dashboard</a></li>\n" +
+"            <li><a href=\".\">Settings</a></li>\n" +
+"            <li><a href=\".\">Profile</a></li>\n" +
+"            <li><a href=\".\">Help</a></li>\n" +
 "          </ul>\n" +
 "          <form class=\"navbar-form navbar-right\">\n" +
 "            <input type=\"text\" class=\"form-control\" placeholder=\"Search...\">\n" +
@@ -89,45 +88,49 @@ public class GenerateHTML {
 "      <div class=\"row\">\n" +
 "        <div class=\"col-sm-3 col-md-2 sidebar\">\n" +
 "          <ul class=\"nav nav-sidebar\">\n" +
-"            <li class=\"active\"><a href=\"http://getbootstrap.com/examples/dashboard/#\">Overview <span class=\"sr-only\">(current)</span></a></li>\n" +
-"            <li><a href=\"http://getbootstrap.com/examples/dashboard/#\">Reports</a></li>\n" +
-"            <li><a href=\"http://getbootstrap.com/examples/dashboard/#\">Analytics</a></li>\n" +
-"            <li><a href=\"http://getbootstrap.com/examples/dashboard/#\">Export</a></li>\n" +
+"            <li class=\"active\"><a href=\".\">Overview <span class=\"sr-only\">(current)</span></a></li>\n" +
+"            <li><a href=\"http://userpages.umbc.edu/~law8/malapp/forceclusters.html\">Reports</a></li>\n" +
+"            <li><a href=\"http://userpages.umbc.edu/~law8/malapp/forceclusters.html\">Analytics</a></li>\n" +
+"            <li><a href=\"http://userpages.umbc.edu/~law8/malapp/forceclusters.html\">Export</a></li>\n" +
 "          </ul>\n" +
 "        </div>\n" +
 "        <div class=\"col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main\">\n" +
 "          <h1 class=\"page-header\">Dashboard</h1>\n" +
-"\n" +
+"<div class=\"well hero-unit\">\n" +
 "          <div class=\"row placeholders\">\n" +
 "            <div class=\"col-xs-6 col-sm-3 placeholder\">\n" +
-"              <img HEIGHT=100 WIDTH=100 src= \"https://raw.githubusercontent.com/Ebiquity/Mithril/master/Icon%20Resource/androidWithShieldHMA.png?token=ACkeVq-IbxEA8YaojBd9w9TmiPXZmoM0ks5V6Y9vwA%3D%3D\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
-"              <h4>App-Analytics</h4>\n" +
-"              <span class=\"text-muted\">UMBC</span>\n" +
+"              <img HEIGHT=100 WIDTH=100 src= \"AdminDashboard_files/AndroidApp.png\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
+"              <h4>Overall User Statistics</h4>\n" +
+"              <!--<span class=\"text-muted\">Complete </span>-->\n" +
 "            </div>\n" +
 "            <div class=\"col-xs-6 col-sm-3 placeholder\">\n" +
-"              <img HEIGHT=100 WIDTH=100 src= \"https://raw.githubusercontent.com/Ebiquity/Mithril/master/Icon%20Resource/androidWithShieldHMA.png?token=ACkeVq-IbxEA8YaojBd9w9TmiPXZmoM0ks5V6Y9vwA%3D%3D\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
-"              <h4>App-Analytics</h4>\n" +
-"              <span class=\"text-muted\">UMBC</span>\n" +
+"              <img HEIGHT=100 WIDTH=100 src= \"AdminDashboard_files/AndroidApp.png\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
+"              <h4>Today's User Statistics</h4>\n" +
+"              <!--<span class=\"text-muted\">UMBC</span>-->\n" +
 "            </div>\n" +
 "            <div class=\"col-xs-6 col-sm-3 placeholder\">\n" +
-"              <img HEIGHT=100 WIDTH=100 src= \"https://raw.githubusercontent.com/Ebiquity/Mithril/master/Icon%20Resource/androidWithShieldHMA.png?token=ACkeVq-IbxEA8YaojBd9w9TmiPXZmoM0ks5V6Y9vwA%3D%3D\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
-"              <h4>App-Analytics</h4>\n" +
-"              <span class=\"text-muted\">UMBC</span>\n" +
+"              <img HEIGHT=100 WIDTH=100 src= \"AdminDashboard_files/AndroidApp.png\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
+"              <h4>Security Events</h4>\n" +
+"              <!--<span class=\"text-muted\">UMBC</span>-->\n" +
 "            </div>\n" +
 "            <div class=\"col-xs-6 col-sm-3 placeholder\">\n" +
-"              <img HEIGHT=100 WIDTH=100 src= \"https://raw.githubusercontent.com/Ebiquity/Mithril/master/Icon%20Resource/androidWithShieldHMA.png?token=ACkeVq-IbxEA8YaojBd9w9TmiPXZmoM0ks5V6Y9vwA%3D%3D\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
-"              <h4>App-Analytics</h4>\n" +
-"              <span class=\"text-muted\">UMBC</span>\n" +
+"              <img HEIGHT=100 WIDTH=100 src= \"AdminDashboard_files/AndroidApp.png\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
+"              <h4>Actions Recommended</h4>\n" +
+"              <!--<span class=\"text-muted\">UMBC</span>-->\n" +
 "            </div>\n" +
 "          </div>\n" +
-"\n" +
+"    <div class=\"text-muted\"><h4>Hi, Admin</h4>\n" +
+"        <p>Welcome to Heimdall. There are no security events which require your urgent attention. You have <a href= \"\">3 meetings</a> scheduled for today.  </p></div>\n" +
+"        </div>\n" +
 "          <h2 class=\"sub-header\">Admin Panel</h2>\n" +
 "          <div class=\"table-responsive\">\n" +
-"            <table class=\"table table-striped\">\n" +
-"              <thead>\n" +
-"                <tr>\n" +
-"                  <th>User</th>\n" +
-"                  <th>Application</th>\n" +
+"            <table class=\"table table-striped table-condensed\">\n" +
+"                <thead>\n" +
+"                    <tr class=\"active\">\n" +
+"                  <th>User Name</th>\n" +
+"                  <th>Email </th>\n" +
+"                  <th>New Application</th>\n" +
+"                  <th>All Installed Applications</th>\n" +
 "                </tr>\n" +
 "              </thead>\n" +
 "              <tbody>";
