@@ -20,7 +20,7 @@
     <string name="small_sample_text_for_list_view">Small Text</string>
     <string name="title_activity_view_permissions">ViewPermissionsActivity</string>
     <string name="title_activity_sync_app_data">SyncAppDataActivity</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="no_location_detected">No location detected!</string>
     <string name="title_activity_send_app_data_to_server">SendAppDataToServerActivity</string>
 
 </resources>

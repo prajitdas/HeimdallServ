@@ -3,9 +3,12 @@ package edu.umbc.cs.ebiquity.mithril.hma;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.umbc.cs.ebiquity.mithril.hma.data.ContextData;
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
+import android.location.Location;
 
 public class HMAApplication extends Application {
 	private static SharedPreferences preferences;
@@ -17,6 +20,7 @@ public class HMAApplication extends Application {
 	private static final String CONST_NOTIFICATION_TITLE = "HMAApplication notification";
 	private static List<String> appList = new ArrayList<String>();
 	private final static String CONST_DATABASE_NAME = "HMADB";
+	private static ContextData contextData;
 	
 	public static String getConstDataCollectionComplete() {
 		return CONST_DATA_COLLECTION_COMPLETE;
@@ -66,5 +70,11 @@ public class HMAApplication extends Application {
 	}
 	public static String getConstDatabaseName() {
 		return CONST_DATABASE_NAME;
+	}
+	public static ContextData getContextData() {
+		return contextData;
+	}
+	public static void setContextData(Context context, Location location) {
+		contextData = new ContextData(context, location);
 	}
 }

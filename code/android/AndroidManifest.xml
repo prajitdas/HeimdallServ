@@ -13,10 +13,11 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/logosmall"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
@@ -38,7 +39,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_CHANGED" />
-                <action android:name="android.intent.action.PACKAGE_INSTALL" />
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
                 <data android:scheme="package" />
@@ -55,6 +55,7 @@
             android:name=".ui.SendAppDataToServerActivity"
             android:label="@string/title_activity_send_app_data_to_server" >
         </activity>
+        <meta-data android:name="com.google.android.gms.version" />
     </application>
 
 </manifest>

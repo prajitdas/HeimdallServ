@@ -1,74 +1,75 @@
 package edu.umbc.cs.ebiquity.mithril.hma.receiver;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import edu.umbc.cs.ebiquity.mithril.hma.HMAApplication;
 import edu.umbc.cs.ebiquity.mithril.hma.R;
 import edu.umbc.cs.ebiquity.mithril.hma.ui.NotificationView;
-import edu.umbc.cs.ebiquity.mithril.hma.util.HMADBHelper;
+import edu.umbc.cs.ebiquity.mithril.hma.util.WebserviceHelper;
 
 public class AppInstallBroadcastReceiver extends BroadcastReceiver {
-	private static HMADBHelper hmaDBHelper;
-	private static SQLiteDatabase hmaDB;
-
+	private static WebserviceHelper webserviceHelper;
+	
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		initDB(context);
+		webserviceHelper = new WebserviceHelper(context);
 		Log.d(HMAApplication.getDebugTag(), "intent received");
-		String message = new String();
-		message = findNewlyInstalledApp(context);
-		Log.d(HMAApplication.getDebugTag(), "message received, it says: "+message);
-		if(intent.getAction() == "android.intent.action.PACKAGE_ADDED")
-			message = "New app installed: " + message;
-		else if(intent.getAction() == "android.intent.action.PACKAGE_CHANGED")
-			message = "Component changed (enabled or disabled): " + message;
-		else if(intent.getAction() == "android.intent.action.PACKAGE_INSTALL")
-			message = "Trigger the download and eventual installation of package: " + message;
-		else if(intent.getAction() == "android.intent.action.PACKAGE_REMOVED")
-			message = "Existing application package: "+message+" has been removed from the device";
-		else if(intent.getAction() == "android.intent.action.PACKAGE_REPLACED")
-			message = "A new version of application package: "+message+"has been installed";
-		Notification(context, message);
-	}
-
-	private void initDB(Context context) {
 		/**
-		 * Database creation and default data insertion, happens only once.
+		 * Broadcast Action: A new application package has been installed on the device. The data contains the name of the package. Note that the newly installed package does not receive this broadcast.
+		 * May include the following extras:
+		 * EXTRA_UID containing the integer uid assigned to the new package.
+		 * EXTRA_REPLACING is set to true if this is following an ACTION_PACKAGE_REMOVED broadcast for the same package.
+		 * This is a protected intent that can only be sent by the system.
+		 * Constant Value: "android.intent.action.PACKAGE_ADDED"
 		 */
-		hmaDBHelper = new HMADBHelper(context);
-		hmaDB = hmaDBHelper.getWritableDatabase();
-	}
-	
-	private String findNewlyInstalledApp(Context context) {
-		Collection<String> appListPrev = new ArrayList<String>();
-		appListPrev = hmaDBHelper.readApps(hmaDB);
-		Collection<String> appListNow = new ArrayList<String>();
-		for(ApplicationInfo appInfo : context.getPackageManager().getInstalledApplications(PackageManager.GET_META_DATA)) {
-			try {
-				if(appInfo.packageName != null) {
-					appListNow.add(appInfo.packageName);
-				}
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
+		if(intent.getAction() == "android.intent.action.PACKAGE_ADDED") {
+			Notification(context, "New app installed is: " + webserviceHelper.findNewlyInstalledApp(Intent.EXTRA_UID));
+			webserviceHelper.collectTheData();
+			webserviceHelper.sendTheData();
 		}
-		// Remove all elements in appListNow from appListPrev
-		appListNow.removeAll(appListPrev);
-		if (!appListNow.isEmpty())
-			for(String newAppInstalledName:appListNow)
-				return newAppInstalledName;
-		return null;
+		/**
+		 * Broadcast Action: An existing application package has been changed (e.g. a component has been enabled or disabled). The data contains the name of the package.
+		 * EXTRA_UID containing the integer uid assigned to the package.
+		 * EXTRA_CHANGED_COMPONENT_NAME_LIST containing the class name of the changed components (or the package name itself).
+		 * EXTRA_DONT_KILL_APP containing boolean field to override the default action of restarting the application.
+		 * This is a protected intent that can only be sent by the system.
+		 * Constant Value: "android.intent.action.PACKAGE_CHANGED"
+		 */
+		else if(intent.getAction() == "android.intent.action.PACKAGE_CHANGED") {
+			Notification(context, "An existing application package has been changed (e.g. a component has been enabled or disabled): " + webserviceHelper.findPackageChanged(Intent.EXTRA_UID));
+			webserviceHelper.collectTheData();
+			webserviceHelper.sendTheData();
+		}
+		/**
+		 * Broadcast Action: An existing application package has been removed from the device. The data contains the name of the package. The package that is being installed does not receive this Intent.
+		 * EXTRA_UID containing the integer uid previously assigned to the package.
+		 * EXTRA_DATA_REMOVED is set to true if the entire application -- data and code -- is being removed.
+		 * EXTRA_REPLACING is set to true if this will be followed by an ACTION_PACKAGE_ADDED broadcast for the same package.
+		 * This is a protected intent that can only be sent by the system.
+		 * Constant Value: "android.intent.action.PACKAGE_REMOVED"
+		 */
+		else if(intent.getAction() == "android.intent.action.PACKAGE_REMOVED") {
+			Notification(context, "An existing application package has been removed from the device: " + webserviceHelper.findPackageRemoved(Intent.EXTRA_UID));
+			webserviceHelper.collectTheData();
+			webserviceHelper.sendTheData();
+		}
+		/**
+		 * Broadcast Action: A new version of an application package has been installed, replacing an existing version that was previously installed. The data contains the name of the package.
+		 * May include the following extras:
+		 * EXTRA_UID containing the integer uid assigned to the new package.
+		 * This is a protected intent that can only be sent by the system.
+		 * Constant Value: "android.intent.action.PACKAGE_REPLACED"
+		 */
+		else if(intent.getAction() == "android.intent.action.PACKAGE_REPLACED") {
+			Notification(context, "New app installed is: " + webserviceHelper.findPackageReplaced(Intent.EXTRA_UID));
+			webserviceHelper.collectTheData();
+			webserviceHelper.sendTheData();
+		}
 	}
 
 	public void Notification(Context context, String message) {
@@ -92,7 +93,7 @@ public class AppInstallBroadcastReceiver extends BroadcastReceiver {
 				// Set Text
 				.setContentText(message)
 				// Add an Action Button below Notification
-				.addAction(R.drawable.ic_launcher, "Action Button", pIntent)
+				.addAction(R.drawable.logosmall, "Action Button", pIntent)
 				// Set PendingIntent into Notification
 				.setContentIntent(pIntent)
 				// Dismiss Notification
