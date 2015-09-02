@@ -107,7 +107,9 @@ public class Storage {
     public String getStorage(String seperator) {
         Iterator it = contents.entrySet().iterator();
         String retString = "";
+        int countLines = 0;
         while (it.hasNext()) {
+            countLines ++;
             Map.Entry thisEntry = (Map.Entry < String, ArrayList<String>>)it.next();
             String email = (String) thisEntry.getKey();
             String name = email;
@@ -159,6 +161,9 @@ public class Storage {
 "                        </div>\n" +
 "                      </td>\n" +
 "                  </tr>";
+        }
+        for (int i = countLines; i < 20; i ++) {
+            retString = retString + "<tr><td></td><td></td><td></td><td></td></tr>";
         }
         return retString;
     }
