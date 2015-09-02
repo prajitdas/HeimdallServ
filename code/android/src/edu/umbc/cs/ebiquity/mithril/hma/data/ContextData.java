@@ -25,6 +25,11 @@ public class ContextData {
 		setActivity("DefaultActivity");
 	}
 
+	public ContextData(Context context) {
+		setIdentity(context);
+		setTime();
+	}
+
 	private void setLocation(Location location) {
 		this.location = location;
 	}

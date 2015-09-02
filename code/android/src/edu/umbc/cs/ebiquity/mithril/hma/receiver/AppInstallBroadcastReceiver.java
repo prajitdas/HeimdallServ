@@ -30,9 +30,7 @@ public class AppInstallBroadcastReceiver extends BroadcastReceiver {
 			Log.d(HMAApplication.getDebugTag(), "intent received");
 			Notification(context, "New app installed is: " + webserviceHelper.findNewlyInstalledApp(Intent.EXTRA_UID));
 			webserviceHelper.collectTheData();
-			Log.d(HMAApplication.getDebugTag(), "data collected");
 			webserviceHelper.sendTheData();
-			Log.d(HMAApplication.getDebugTag(), "data sent");
 		}
 		/**
 		 * Broadcast Action: An existing application package has been changed (e.g. a component has been enabled or disabled). The data contains the name of the package.

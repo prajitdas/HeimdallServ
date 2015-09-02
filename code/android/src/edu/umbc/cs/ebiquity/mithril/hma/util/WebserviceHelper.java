@@ -27,6 +27,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 import edu.umbc.cs.ebiquity.mithril.hma.HMAApplication;
+import edu.umbc.cs.ebiquity.mithril.hma.data.ContextData;
 
 public class WebserviceHelper {	
 	private Context context;
@@ -66,6 +67,8 @@ public class WebserviceHelper {
 				String reqXMLPostfix = "</arg0></ns2:printString></S:Body></S:Envelope>";
 				
 				String request = reqXMLPrefix+writeDataToStream()+reqXMLPostfix;
+				
+				Log.d(HMAApplication.getDebugTag(), "writing request"+request);
 				
 				URL url;		
 				HttpURLConnection httpURLConnection = null;
@@ -127,29 +130,30 @@ public class WebserviceHelper {
 	}
 
 	private String writeDataToStream() throws JSONException, IOException {
-		Log.d(HMAApplication.getDebugTag(), "writing JSON");
+		ContextData tempContextData = new ContextData(context);
 		// Add your data
 		//Create JSONObject here 
 		JSONObject jsonParam = new JSONObject();
-		jsonParam.put("identity", HMAApplication.getContextData().getIdentity());
+		jsonParam.put("identity", tempContextData.getIdentity());
+		jsonParam.put("modifiedApp",getRecentlyChangedAppPackageName());
 //			jsonParam.put("location", appContextData.getLocation());
 //			jsonParam.put("activity", appContextData.getActivity());
 //			jsonParam.put("time", appContextData.getTime());
 //			jsonParam.put("purpose", appContextData.getPurpose());
 
-		collectTheData();
+//		collectTheData();
 		JSONArray jsonArray = new JSONArray();
 		for(String applicationInfo : getCurrentlyInstalledAppsList()) {
 			jsonArray.put(applicationInfo);
-			HMAApplication.addToAppList(applicationInfo);
+//			HMAApplication.addToAppList(applicationInfo);
 //			        	jsonArray.put("Facebook");
 //			        	jsonArray.put("Twitter");
 //			        	jsonArray.put("G+");
+//			Log.d(HMAApplication.getDebugTag(), "in application info writing JSON");
 		}
 		jsonParam.put("currentApps",jsonArray);
-		jsonParam.put("modifiedApp",getRecentlyChangedAppPackageName());
 		
-		Log.d(HMAApplication.getDebugTag(), jsonParam.toString());
+//		Log.d(HMAApplication.getDebugTag(), jsonParam.toString());
 		return jsonParam.toString();
 	}
 

@@ -151,7 +151,7 @@ public class ShowAppsMainActivity extends ListActivity implements ConnectionCall
 			mAcceptAgreementBtn.setEnabled(true);
 			mStartSvcBtn.setEnabled(false);
 		}*/
-		HMAApplication.setContextData(this, mLastLocation);
+//		HMAApplication.setContextData(this, mLastLocation);
 	}
 
 	/** 

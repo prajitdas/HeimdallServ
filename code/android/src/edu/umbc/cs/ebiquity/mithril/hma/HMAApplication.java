@@ -1,14 +1,7 @@
 package edu.umbc.cs.ebiquity.mithril.hma;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import edu.umbc.cs.ebiquity.mithril.hma.data.ContextData;
 import android.app.Application;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
-import android.location.Location;
 
 public class HMAApplication extends Application {
 	private static SharedPreferences preferences;
@@ -18,9 +11,8 @@ public class HMAApplication extends Application {
 	private static final String CONST_ACCEPT_DECISION_KEY = "acceptDecisionKey";	
 	private static final String CONST_WEBSERVICE_URI = "http://eb4.cs.umbc.edu:1234/ws/datamanager";
 	private static final String CONST_NOTIFICATION_TITLE = "HMAApplication notification";
-	private static List<String> appList = new ArrayList<String>();
+//	private static List<String> appList = new ArrayList<String>();
 	private final static String CONST_DATABASE_NAME = "HMADB";
-	private static ContextData contextData;
 	
 	public static String getConstDataCollectionComplete() {
 		return CONST_DATA_COLLECTION_COMPLETE;
@@ -34,28 +26,28 @@ public class HMAApplication extends Application {
 	public static String getConstWebserviceUri() {
 		return CONST_WEBSERVICE_URI;
 	}
-	public static List<String> getAppList() {
-		return appList;
-	}
-	public static String getAppListString() {
-		StringBuffer result = new StringBuffer();
-		for(String app:appList) {
-			result.append(app);
-		}
-		return result.toString();
-	}
-	public static void setAppList(List<String> appList) {
-		HMAApplication.appList = appList;
-	}
-	public static void addToAppList(String appName) {
-		if(!appList.contains(appName))
-			appList.add(appName);
-	}
-	public static boolean isInAppList(ApplicationInfo ApplicationInfo) {
-		if(appList.contains(ApplicationInfo.packageName))
-			return true;
-		return false;
-	}
+//	public static List<String> getAppList() {
+//		return appList;
+//	}
+//	public static String getAppListString() {
+//		StringBuffer result = new StringBuffer();
+//		for(String app:appList) {
+//			result.append(app);
+//		}
+//		return result.toString();
+//	}
+//	public static void setAppList(List<String> appList) {
+//		HMAApplication.appList = appList;
+//	}
+//	public static void addToAppList(String appName) {
+//		if(!appList.contains(appName))
+//			appList.add(appName);
+//	}
+//	public static boolean isInAppList(ApplicationInfo ApplicationInfo) {
+//		if(appList.contains(ApplicationInfo.packageName))
+//			return true;
+//		return false;
+//	}
 	public static String getDebugTag() {
 		return DEBUG_TAG;
 	}
@@ -70,11 +62,5 @@ public class HMAApplication extends Application {
 	}
 	public static String getConstDatabaseName() {
 		return CONST_DATABASE_NAME;
-	}
-	public static ContextData getContextData() {
-		return contextData;
-	}
-	public static void setContextData(Context context, Location location) {
-		contextData = new ContextData(context, location);
 	}
 }
