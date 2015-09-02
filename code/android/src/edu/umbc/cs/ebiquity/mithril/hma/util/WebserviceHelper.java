@@ -68,8 +68,6 @@ public class WebserviceHelper {
 				
 				String request = reqXMLPrefix+writeDataToStream()+reqXMLPostfix;
 				
-				Log.d(HMAApplication.getDebugTag(), "writing request"+request);
-				
 				URL url;		
 				HttpURLConnection httpURLConnection = null;
 				try {
@@ -193,7 +191,7 @@ public class WebserviceHelper {
     }
 	
 	public String findNewlyInstalledApp(String extraUid) {
-		Log.d(HMAApplication.getDebugTag(), "finding new app");
+//		Log.d(HMAApplication.getDebugTag(), "finding new app");
 		Collection<String> appListPrev = new ArrayList<String>();
 		appListPrev = hmaDBHelper.readApps(hmaDB);
 		Collection<String> appListNow = new ArrayList<String>();
@@ -225,9 +223,32 @@ public class WebserviceHelper {
 	}
 	
 	public String findPackageRemoved(String extraUid) {
-		String appName = getAppNameFromUid(extraUid);
-		hmaDBHelper.deleteApp(hmaDB, appName);
-		return appName;
+		Log.d(HMAApplication.getDebugTag(), "finding removed app");
+		Collection<String> appListPrev = new ArrayList<String>();
+		appListPrev = hmaDBHelper.readApps(hmaDB);
+		Collection<String> appListNow = new ArrayList<String>();
+		for(ApplicationInfo appInfo : context.getPackageManager().getInstalledApplications(PackageManager.GET_META_DATA)) {
+			try {
+				if(appInfo.packageName != null) {
+					appListNow.add(appInfo.packageName);
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		// Remove all elements in appListNow from appListPrev
+		appListPrev.removeAll(appListNow);
+		if (!appListPrev.isEmpty())
+			for(String appName:appListPrev) {
+				setRecentlyChangedAppPackageName(appName);
+				hmaDBHelper.deleteApp(hmaDB, appName);// Remove app from DB
+				return appName;
+			}
+		return null;
+//		hmaDBHelper.createApp(hmaDB, getAppNameFromUid(extraUid));
+//		String appName = getAppNameFromUid(extraUid);
+//		hmaDBHelper.deleteApp(hmaDB, appName);
+//		return appName;
 	}
 	
 	private String getAppNameFromUid(String extraUid) {
