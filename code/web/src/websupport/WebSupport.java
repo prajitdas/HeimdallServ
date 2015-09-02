@@ -19,7 +19,7 @@ public class WebSupport {
      * @param args the command line arguments
      */
     public static Storage storage = null;
-    public static String output = "AppAn\\AdminDashBoard.html";
+    public static String output = "AppAn/index.html";
     public static void main(String[] args) {
         // TODO code application logic here
         storage = new Storage();
