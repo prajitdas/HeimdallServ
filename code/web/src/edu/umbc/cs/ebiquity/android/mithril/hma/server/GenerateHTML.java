@@ -99,22 +99,22 @@ public class GenerateHTML {
 "<div class=\"well hero-unit\">\n" +
 "          <div class=\"row placeholders\">\n" +
 "            <div class=\"col-xs-6 col-sm-3 placeholder\">\n" +
-"              <img HEIGHT=100 WIDTH=100 src= \"AdminDashboard_files/AndroidApp.png\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
+"              <img HEIGHT=100 WIDTH=100 src= \"https://www.google.com/url?q=https%3A%2F%2Fraw.githubusercontent.com%2FEbiquity%2FMithril%2Fmaster%2FIcon%2520Resource%2FandroidWithShieldHMA.png%3Ftoken%3DACkeVgWS0mM6D3-I2FXOcHJNU2zt1dPlks5V8l1dwA%253D%253D&sa=D&sntz=1&usg=AFQjCNGHI-BmUc4a894wKdUw1Wslt1ogbg\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
 "              <h4>Overall User Statistics</h4>\n" +
 "              <!--<span class=\"text-muted\">Complete </span>-->\n" +
 "            </div>\n" +
 "            <div class=\"col-xs-6 col-sm-3 placeholder\">\n" +
-"              <img HEIGHT=100 WIDTH=100 src= \"AdminDashboard_files/AndroidApp.png\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
+"              <img HEIGHT=100 WIDTH=100 src= \"https://www.google.com/url?q=https%3A%2F%2Fraw.githubusercontent.com%2FEbiquity%2FMithril%2Fmaster%2FIcon%2520Resource%2FandroidWithShieldHMA.png%3Ftoken%3DACkeVgWS0mM6D3-I2FXOcHJNU2zt1dPlks5V8l1dwA%253D%253D&sa=D&sntz=1&usg=AFQjCNGHI-BmUc4a894wKdUw1Wslt1ogbg\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
 "              <h4>Today's User Statistics</h4>\n" +
 "              <!--<span class=\"text-muted\">UMBC</span>-->\n" +
 "            </div>\n" +
 "            <div class=\"col-xs-6 col-sm-3 placeholder\">\n" +
-"              <img HEIGHT=100 WIDTH=100 src= \"AdminDashboard_files/AndroidApp.png\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
+"              <img HEIGHT=100 WIDTH=100 src= \"https://www.google.com/url?q=https%3A%2F%2Fraw.githubusercontent.com%2FEbiquity%2FMithril%2Fmaster%2FIcon%2520Resource%2FandroidWithShieldHMA.png%3Ftoken%3DACkeVgWS0mM6D3-I2FXOcHJNU2zt1dPlks5V8l1dwA%253D%253D&sa=D&sntz=1&usg=AFQjCNGHI-BmUc4a894wKdUw1Wslt1ogbg\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
 "              <h4>Security Events</h4>\n" +
 "              <!--<span class=\"text-muted\">UMBC</span>-->\n" +
 "            </div>\n" +
 "            <div class=\"col-xs-6 col-sm-3 placeholder\">\n" +
-"              <img HEIGHT=100 WIDTH=100 src= \"AdminDashboard_files/AndroidApp.png\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
+"              <img HEIGHT=100 WIDTH=100 src= \"https://www.google.com/url?q=https%3A%2F%2Fraw.githubusercontent.com%2FEbiquity%2FMithril%2Fmaster%2FIcon%2520Resource%2FandroidWithShieldHMA.png%3Ftoken%3DACkeVgWS0mM6D3-I2FXOcHJNU2zt1dPlks5V8l1dwA%253D%253D&sa=D&sntz=1&usg=AFQjCNGHI-BmUc4a894wKdUw1Wslt1ogbg\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
 "              <h4>Actions Recommended</h4>\n" +
 "              <!--<span class=\"text-muted\">UMBC</span>-->\n" +
 "            </div>\n" +
