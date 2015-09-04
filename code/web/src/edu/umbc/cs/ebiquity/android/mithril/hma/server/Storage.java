@@ -145,9 +145,15 @@ public class Storage {
                     + deviceID
                     + "</td>";
             retString = retString 
-                    + "<td>" 
-                    +  newAppInfo.get(uniqueID)
+                    + "<td>"
+                    + "<li><a href=\""
+                    + "http://eb4.cs.umbc.edu/forceclusters.php?appid="
+                    + newAppInfo.get(uniqueID).replaceAll(".", "-")
+                    + "\">"
+                    + newAppInfo.get(uniqueID)
+                    + "</a></li>"
                     + "</td>";
+                    
             retString = retString +
 //                    "<td  class=\"user-actions\">\n" +
 //"                          <span>\n" +
@@ -183,7 +189,7 @@ public class Storage {
 "                  </tr>";
         }
         for (int i = countLines; i < 20; i ++) {
-            retString = retString + "<tr><td>.</td><td></td><td></td><td></td></tr>";
+            retString = retString + "<tr><td>.</td><td></td><td></td><td></td><td></td></tr>";
         }
         return retString;
     }
