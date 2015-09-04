@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public class AppContents {
     public String userName;
+    public String deviceID;
     public ArrayList<String> appList = new ArrayList<>();
     public String modifiedApp = "";
         
