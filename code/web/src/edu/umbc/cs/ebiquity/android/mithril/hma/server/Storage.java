@@ -148,7 +148,7 @@ public class Storage {
                     + "<td>"
                     + "<li><a href=\""
                     + "http://eb4.cs.umbc.edu/forceclusters.php?appid="
-                    + newAppInfo.get(uniqueID).replaceAll(".", "-")
+                    + newAppInfo.get(uniqueID).replaceAll("\\.", "-")
                     + "\">"
                     + newAppInfo.get(uniqueID)
                     + "</a></li>"
