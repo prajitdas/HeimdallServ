@@ -116,7 +116,7 @@ public class AppInstallBroadcastReceiver extends BroadcastReceiver {
 				// Set Text
 				.setContentText(message)
 				// Add an Action Button below Notification
-//				.addAction(R.drawable.logosmall, "Action Button", pIntent)
+				.addAction(R.drawable.logosmall, "Action Button", pIntent)
 				// Set PendingIntent into Notification
 				.setContentIntent(pIntent)
 				// Dismiss Notification

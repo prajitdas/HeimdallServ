@@ -30,7 +30,7 @@ public class GenerateHTML {
         String html = "<!DOCTYPE html>\n" +
 "<!-- saved from url=(0043)http:// -->\n" +
 "<html lang=\"en\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n" +
-"<meta http-equiv=\"refresh\" content=\"100\"; URL=\".\">    <meta charset=\"utf-8\">\n" +
+"<meta http-equiv=\"refresh\" content=\"5\"; URL=\".\">    <meta charset=\"utf-8\">\n" +
 "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n" +
 "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
 "    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->\n" +
