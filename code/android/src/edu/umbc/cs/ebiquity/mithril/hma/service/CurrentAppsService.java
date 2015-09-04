@@ -4,10 +4,9 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import edu.umbc.cs.ebiquity.mithril.hma.HMAApplication;
-import edu.umbc.cs.ebiquity.mithril.hma.util.WebserviceHelper;
 
 public class CurrentAppsService extends IntentService {
-	private static WebserviceHelper webserviceHelper;
+//	private static WebserviceHelper webserviceHelper;
 	
 	public CurrentAppsService() {
 		super("CurrentAppsService");
@@ -15,9 +14,9 @@ public class CurrentAppsService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		webserviceHelper = new WebserviceHelper(getApplicationContext());
-		webserviceHelper.collectTheData();
-		webserviceHelper.sendTheData();
+//		webserviceHelper = new WebserviceHelper(getApplicationContext());
+//		webserviceHelper.collectTheData();
+//		webserviceHelper.sendTheData();
         
         /* Task complete now return */
         Intent intentOnCompletionOfDataCollection = new Intent(HMAApplication.getConstDataCollectionComplete());

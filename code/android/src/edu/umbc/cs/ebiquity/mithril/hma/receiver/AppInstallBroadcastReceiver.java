@@ -31,6 +31,15 @@ public class AppInstallBroadcastReceiver extends BroadcastReceiver {
 			Notification(context, "New app installed is: " + webserviceHelper.findNewlyInstalledApp(Intent.EXTRA_UID));
 			webserviceHelper.collectTheData();
 			webserviceHelper.sendTheData();
+//			try {
+//				webserviceHelper.sendDataSync();
+//			} catch (JSONException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 		}
 		/**
 		 * Broadcast Action: An existing application package has been changed (e.g. a component has been enabled or disabled). The data contains the name of the package.
