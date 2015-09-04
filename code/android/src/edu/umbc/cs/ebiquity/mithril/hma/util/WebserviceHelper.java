@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +25,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 import edu.umbc.cs.ebiquity.mithril.hma.HMAApplication;
@@ -150,12 +152,26 @@ public class WebserviceHelper {
 //			Log.d(HMAApplication.getDebugTag(), "in application info writing JSON");
 		}
 		jsonParam.put("currentApps",jsonArray);
+		jsonParam.put("deviceId",getDeviceId());
 		
 //		Log.d(HMAApplication.getDebugTag(), jsonParam.toString());
 		return jsonParam.toString();
 	}
 
-    private boolean isOnline() {
+    private String getDeviceId() {
+		final TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+		 
+		final String tmDevice, tmSerial, androidId;
+		tmDevice = "" + tm.getDeviceId(); 
+		tmSerial = "" + tm.getSimSerialNumber(); 
+		androidId = "" + android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+		 
+		UUID deviceUuid = new UUID(androidId.hashCode(), ((long)tmDevice.hashCode() << 32) | tmSerial.hashCode());
+		String deviceId = deviceUuid.toString();
+		return deviceId;
+    }
+
+	private boolean isOnline() {
         ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Activity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
