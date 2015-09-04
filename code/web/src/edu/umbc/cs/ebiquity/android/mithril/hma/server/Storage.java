@@ -71,10 +71,10 @@ public class Storage {
         String deviceID = appContents.deviceID;
         String uniqueID = getUniqueID(userName, deviceID);
         ArrayList<String> installedAppsStorage = contents.get(uniqueID);
-        System.out.println("sandeep" + appContents.modifiedApp);
+        System.out.println("New App Installed : " + appContents.modifiedApp);
         if (appContents.modifiedApp.equals("null"))
             return;
-        System.out.println("not here");
+        //System.out.println("not here");
         if (contents.containsKey(uniqueID)) {
             ArrayList<String> installedAppsNew = appContents.appList;
             newAppInfo.put(uniqueID, appContents.modifiedApp);
@@ -113,7 +113,7 @@ public class Storage {
         Iterator it = contents.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry thisEntry = (Map.Entry < String, ArrayList<String>>)it.next();
-            System.out.println(thisEntry.getKey() + " - " + thisEntry.getValue().toString());
+            //System.out.println(thisEntry.getKey() + " - " + thisEntry.getValue().toString());
         }
     }
     public String getStorage(String seperator) {
