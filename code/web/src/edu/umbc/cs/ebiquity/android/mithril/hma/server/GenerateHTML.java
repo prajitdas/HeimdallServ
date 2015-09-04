@@ -120,7 +120,7 @@ public class GenerateHTML {
 "            </div>\n" +
 "          </div>\n" +
 "    <div class=\"text-muted\"><h4>Hi, Admin</h4>\n" +
-"        <p>Welcome to Heimdall. There are no security events which require your urgent attention. You have <a href= \"\">3 meetings</a> scheduled for today.  </p></div>\n" +
+"        <p>Welcome to Heimdall. There are no security events which require your urgent attention.  </p></div>\n" +
 "        </div>\n" +
 "          <h2 class=\"sub-header\">Admin Panel</h2>\n" +
 "          <div class=\"table-responsive\">\n" +
