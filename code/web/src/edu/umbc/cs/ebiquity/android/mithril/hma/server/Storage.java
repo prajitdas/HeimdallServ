@@ -47,6 +47,7 @@ public class Storage {
         JSONObject jobjName = (JSONObject)jsonParser.parse(line);
         AppContents appContents = new AppContents();
         appContents.userName = (String)jobjName.get("identity");
+        appContents.deviceID = (String)jobjName.get("deviceId");
         JSONArray appList = (JSONArray)jobjName.get("currentApps");
         appContents.modifiedApp = (String)jobjName.get("modifiedApp");
         for (int j = 0; j < appList.size(); j++) {
@@ -62,12 +63,21 @@ public class Storage {
             Logger.getLogger(Storage.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+    private String getUniqueID(String userName, String deviceId) {
+        return userName + ":" + deviceId;
+    }
     public void putOrUpdateStorage(AppContents appContents) {
-        ArrayList<String> installedAppsStorage = contents.get(appContents.userName);
-        if (contents.containsKey(appContents.userName)) {
+        String userName = appContents.userName;
+        String deviceID = appContents.deviceID;
+        String uniqueID = getUniqueID(userName, deviceID);
+        ArrayList<String> installedAppsStorage = contents.get(uniqueID);
+        System.out.println("New App Installed : " + appContents.modifiedApp);
+        if (appContents.modifiedApp.equals("null"))
+            return;
+        //System.out.println("not here");
+        if (contents.containsKey(uniqueID)) {
             ArrayList<String> installedAppsNew = appContents.appList;
-            newAppInfo.put(appContents.userName, appContents.modifiedApp);
+            newAppInfo.put(uniqueID, appContents.modifiedApp);
             for (int i = 0; i < installedAppsNew.size(); i++) {
                 Boolean found = Boolean.FALSE;
                 String thisApp = installedAppsNew.get(i);
@@ -81,11 +91,11 @@ public class Storage {
                     installedAppsStorage.add(thisApp);
                 }
             }
-            contents.put(appContents.userName, installedAppsStorage);
+            contents.put(uniqueID, installedAppsStorage);
         }
         else {
-            contents.put(appContents.userName, appContents.appList);
-            newAppInfo.put(appContents.userName, appContents.modifiedApp);
+            contents.put(uniqueID, appContents.appList);
+            newAppInfo.put(uniqueID, appContents.modifiedApp);
         }
     }
     
@@ -93,7 +103,9 @@ public class Storage {
         
         for (int i = 0; i < storageContents.size(); i ++) {
             AppContents appContents = getAppContentsFromJson(storageContents.get(i));
-            contents.put(appContents.userName, appContents.appList);
+            String uniqueID = getUniqueID(appContents.userName, appContents.deviceID);
+            contents.put(uniqueID, appContents.appList);
+            newAppInfo.put(uniqueID, appContents.modifiedApp);
         }
     }
     
@@ -101,7 +113,7 @@ public class Storage {
         Iterator it = contents.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry thisEntry = (Map.Entry < String, ArrayList<String>>)it.next();
-            System.out.println(thisEntry.getKey() + " - " + thisEntry.getValue().toString());
+            //System.out.println(thisEntry.getKey() + " - " + thisEntry.getValue().toString());
         }
     }
     public String getStorage(String seperator) {
@@ -111,11 +123,15 @@ public class Storage {
         while (it.hasNext()) {
             countLines ++;
             Map.Entry thisEntry = (Map.Entry < String, ArrayList<String>>)it.next();
-            String email = (String) thisEntry.getKey();
+            String uniqueID = (String) thisEntry.getKey();
+            String[] strArr = uniqueID.split(":");
+            String deviceID = strArr[1];
+            String email = strArr[0];
             String name = email;
             if (email.contains("@")) {
                 name = email.substring(0, email.indexOf("@"));
             }
+            
             retString = retString + "<tr>"
                     + "<td>" 
                     + name 
@@ -125,9 +141,19 @@ public class Storage {
                     + email 
                     + "</td>";
             retString = retString 
-                    + "<td>" 
-                    +  newAppInfo.get(email)
+                    + "<td>"
+                    + deviceID
                     + "</td>";
+            retString = retString 
+                    + "<td>"
+                    + "<li><a href=\""
+                    + "http://eb4.cs.umbc.edu/forceclusters.php?appid="
+                    + newAppInfo.get(uniqueID).replaceAll(".", "-")
+                    + "\">"
+                    + newAppInfo.get(uniqueID)
+                    + "</a></li>"
+                    + "</td>";
+                    
             retString = retString +
 //                    "<td  class=\"user-actions\">\n" +
 //"                          <span>\n" +
@@ -163,7 +189,7 @@ public class Storage {
 "                  </tr>";
         }
         for (int i = countLines; i < 20; i ++) {
-            retString = retString + "<tr><td>.</td><td></td><td></td><td></td></tr>";
+            retString = retString + "<tr><td>.</td><td></td><td></td><td></td><td></td></tr>";
         }
         return retString;
     }
