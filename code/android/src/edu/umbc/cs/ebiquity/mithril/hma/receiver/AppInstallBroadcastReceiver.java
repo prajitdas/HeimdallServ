@@ -32,6 +32,7 @@ public class AppInstallBroadcastReceiver extends BroadcastReceiver {
 			message = "New app installed is: " + webserviceHelper.findNewlyInstalledApp(Intent.EXTRA_UID);
 			webserviceHelper.collectTheData();
 			webserviceHelper.sendTheData();
+			Notification(context, message);
 //			try {
 //				webserviceHelper.sendDataSync();
 //			} catch (JSONException e) {
@@ -92,7 +93,6 @@ public class AppInstallBroadcastReceiver extends BroadcastReceiver {
 //			webserviceHelper.collectTheData();
 //			webserviceHelper.sendTheData();
 		}
-		Notification(context, message);
 	}
 
 	public void Notification(Context context, String message) {
