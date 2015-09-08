@@ -33,10 +33,17 @@ import edu.umbc.cs.ebiquity.mithril.hma.data.ContextData;
 
 public class WebserviceHelper {	
 	private Context context;
+	
 	private static HMADBHelper hmaDBHelper;
 	private static SQLiteDatabase hmaDB;
+
 	private static String recentlyChangedAppPackageName = new String();
 	private static List<String> currentlyInstalledAppsList = new ArrayList<String>();
+
+	private static boolean isPackageAdded;
+	private static boolean isPackageChanged;
+	private static boolean isPackageRemoved;
+	private static boolean isPackageReplaced;
 
 	/**
 	 * 												Data upload portion
@@ -45,6 +52,10 @@ public class WebserviceHelper {
 
 	public WebserviceHelper(Context context) {
 		this.context = context;
+		setPackageAdded(false);
+		setPackageChanged(false);
+		setPackageRemoved(false);
+		setPackageReplaced(false);
 		initDB();
 	}
 
@@ -55,57 +66,6 @@ public class WebserviceHelper {
 		if(isOnline())
 			new SendDataToServerAsyncTask().execute();// for older method HMAApplication.getConstWebserviceUri());
 	}
-	
-//	public void sendDataSync() throws JSONException, IOException {
-//		if(isOnline()) {
-//			String resp;
-//			String reqXMLPrefix = "<?xml version=\"1.0\" ?><S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\"><S:Body><ns2:printString xmlns:ns2=\"http://webservice.hma.mithril.android.ebiquity.cs.umbc.edu/\"><arg0>";
-//			String reqXMLPostfix = "</arg0></ns2:printString></S:Body></S:Envelope>";
-//			
-//			String request = reqXMLPrefix+writeDataToStream()+reqXMLPostfix;
-//			
-//			URL url;		
-//			HttpURLConnection httpURLConnection = null;
-//			try {
-//				//Create connection
-//				url = new URL(HMAApplication.getConstWebserviceUri());
-//				httpURLConnection = (HttpURLConnection)url.openConnection();
-//				httpURLConnection.setRequestMethod("POST");
-//				httpURLConnection.setRequestProperty("Content-type", "text/xml; charset=utf-8");
-//				httpURLConnection.setRequestProperty("SOAPAction", "http://eb4.cs.umbc.edu:1234/ws/datamanager#printString");
-//				httpURLConnection.setChunkedStreamingMode(0);
-//	
-//				httpURLConnection.setUseCaches (false);
-//				httpURLConnection.setDoInput(true);
-//				httpURLConnection.setDoOutput(true);
-//				httpURLConnection.connect();
-//				
-//	//				Log.d(HMAApplication.getCurrentAppsDebugTag(), "Hardcoded call starts...");
-//				//Send request
-//				BufferedOutputStream out = new BufferedOutputStream(httpURLConnection.getOutputStream());
-//				out.write(request.getBytes());
-//	//				Log.d(HMAApplication.getCurrentAppsDebugTag(), out.toString());
-//				out.flush();
-//				out.close();
-//	//				Log.d(HMAApplication.getCurrentAppsDebugTag(), "Hardcoded call ends...");
-//	
-//				//Get Response	
-//				InputStream in = new BufferedInputStream(httpURLConnection.getInputStream());
-//	//				Log.d(HMAApplication.getCurrentAppsDebugTag(), "Input stream reading...");
-//				resp = convertInputStreamToString(in);
-//	//				Log.d(HMAApplication.getCurrentAppsDebugTag(), "Read from server: "+resp);
-//			} catch (IOException e) {
-//				// writing exception to log
-//				e.printStackTrace();//(HMAApplication.getCurrentAppsDebugTag(), e.getStackTrace().toString());
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			} finally {
-//				if(httpURLConnection != null) {
-//					httpURLConnection.disconnect(); 
-//				}
-//			}
-//		}
-//	}
 
 	private class SendDataToServerAsyncTask extends AsyncTask<String, String, String> {
 		private String resp;
@@ -204,12 +164,27 @@ public class WebserviceHelper {
 		}
 		jsonParam.put("currentApps",jsonArray);
 		jsonParam.put("deviceId",getDeviceId());
+		jsonParam.put("installFlag",getInstallFlag().toString());
 		
 //		Log.d(HMAApplication.getDebugTag(), jsonParam.toString());
 		return jsonParam.toString();
 	}
 
-    private String getDeviceId() {
+    private String getInstallFlag() {
+    	if(isPackageAdded()) {
+    		setPackageAdded(false);
+    		return "true";
+    	}
+    	if(isPackageChanged())
+    		setPackageChanged(false);
+		if(isPackageReplaced())
+			setPackageReplaced(false);
+    	if(isPackageRemoved())
+    		setPackageRemoved(false);
+    	return "false";
+    }
+
+	private String getDeviceId() {
 		final TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		 
 		final String tmDevice, tmSerial, androidId;
@@ -258,6 +233,7 @@ public class WebserviceHelper {
     }
 	
 	public String findNewlyInstalledApp(String extraUid) {
+		setPackageAdded(true);
 //		Log.d(HMAApplication.getDebugTag(), "finding new app");
 		Collection<String> appListPrev = new ArrayList<String>();
 		appListPrev = hmaDBHelper.readApps(hmaDB);
@@ -284,12 +260,14 @@ public class WebserviceHelper {
 	}
 
 	public String findPackageChanged(String extraUid) {
+		setPackageChanged(true);
 		String appName = getAppNameFromUid(extraUid);
 		hmaDBHelper.updateApp(hmaDB, appName);
 		return appName;
 	}
 	
 	public String findPackageRemoved(String extraUid) {
+		setPackageRemoved(true);
 		Log.d(HMAApplication.getDebugTag(), "finding removed app");
 		Collection<String> appListPrev = new ArrayList<String>();
 		appListPrev = hmaDBHelper.readApps(hmaDB);
@@ -318,6 +296,13 @@ public class WebserviceHelper {
 //		return appName;
 	}
 	
+	public String findPackageReplaced(String extraUid) {
+		setPackageReplaced(true);
+		String appName = getAppNameFromUid(extraUid);
+		hmaDBHelper.updateApp(hmaDB, appName);
+		return appName;
+	}
+
 	private String getAppNameFromUid(String extraUid) {
 		int uid = -1;
 		try {
@@ -350,12 +335,6 @@ public class WebserviceHelper {
 		WebserviceHelper.recentlyChangedAppPackageName = recentlyChangedAppPackageName;
 	}
 
-	public String findPackageReplaced(String extraUid) {
-		String appName = getAppNameFromUid(extraUid);
-		hmaDBHelper.updateApp(hmaDB, appName);
-		return appName;
-	}
-
 	public List<String> getCurrentlyInstalledAppsList() {
 		return currentlyInstalledAppsList;
 	}
@@ -363,5 +342,61 @@ public class WebserviceHelper {
 	public void setCurrentlyInstalledAppsList(
 			List<String> currentlyInstalledAppsList) {
 		WebserviceHelper.currentlyInstalledAppsList = currentlyInstalledAppsList;
+	}
+
+	public Context getContext() {
+		return context;
+	}
+
+	public void setContext(Context context) {
+		this.context = context;
+	}
+
+	public static HMADBHelper getHmaDBHelper() {
+		return hmaDBHelper;
+	}
+
+	public static void setHmaDBHelper(HMADBHelper hmaDBHelper) {
+		WebserviceHelper.hmaDBHelper = hmaDBHelper;
+	}
+
+	public static SQLiteDatabase getHmaDB() {
+		return hmaDB;
+	}
+
+	public static void setHmaDB(SQLiteDatabase hmaDB) {
+		WebserviceHelper.hmaDB = hmaDB;
+	}
+
+	public static boolean isPackageAdded() {
+		return isPackageAdded;
+	}
+
+	public static void setPackageAdded(boolean isPackageAdded) {
+		WebserviceHelper.isPackageAdded = isPackageAdded;
+	}
+
+	public static boolean isPackageChanged() {
+		return isPackageChanged;
+	}
+
+	public static void setPackageChanged(boolean isPackageChanged) {
+		WebserviceHelper.isPackageChanged = isPackageChanged;
+	}
+
+	public static boolean isPackageRemoved() {
+		return isPackageRemoved;
+	}
+
+	public static void setPackageRemoved(boolean isPackageRemoved) {
+		WebserviceHelper.isPackageRemoved = isPackageRemoved;
+	}
+
+	public static boolean isPackageReplaced() {
+		return isPackageReplaced;
+	}
+
+	public static void setPackageReplaced(boolean isPackageReplaced) {
+		WebserviceHelper.isPackageReplaced = isPackageReplaced;
 	}
 }
