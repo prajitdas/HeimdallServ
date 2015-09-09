@@ -16,6 +16,7 @@ public class AppContents {
     public String deviceID;
     public ArrayList<String> appList = new ArrayList<>();
     public Boolean added;
-    public String modifiedApp = "";
+    public String addedApp = "";
+    public String removedApp = "";
         
 }

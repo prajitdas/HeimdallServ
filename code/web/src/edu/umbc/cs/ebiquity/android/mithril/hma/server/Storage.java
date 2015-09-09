@@ -32,6 +32,7 @@ public class Storage {
     public HashMap<String,AppContents> contents = new HashMap<>();
 //    public HashMap<String,String> newAppInfo = new HashMap<>();
     private String permanentStorage = "per.storage";
+    private String prevApp = "";
     
     public Storage() {
         try {
@@ -49,11 +50,13 @@ public class Storage {
         appContents.userName = (String)jobjName.get("identity");
         appContents.deviceID = (String)jobjName.get("deviceId");
         JSONArray appList = (JSONArray)jobjName.get("currentApps");
-        appContents.modifiedApp = (String)jobjName.get("modifiedApp");
+        
         if (((String)jobjName.get("installFlag")).equals("true")) {
             appContents.added = Boolean.TRUE;
+            appContents.addedApp = (String)jobjName.get("modifiedApp");
         } else {
             appContents.added = Boolean.FALSE;
+            appContents.removedApp = (String)jobjName.get("modifiedApp");
         }
         for (int j = 0; j < appList.size(); j++) {
             appContents.appList.add((String)appList.get(j));
@@ -76,39 +79,19 @@ public class Storage {
         String deviceID = appContents.deviceID;
         String uniqueID = getUniqueID(userName, deviceID);
         if (contents.containsKey(uniqueID)) {
+            AppContents thisAppCon = contents.get(uniqueID);
+            if (appContents.added) {
+                appContents.removedApp = thisAppCon.removedApp;
+            } else {
+                appContents.addedApp = thisAppCon.addedApp;
+            }
             contents.put(uniqueID, appContents);
+            
         }
         else {
             contents.put(uniqueID, appContents);
         }
-//        ArrayList<String> installedAppsStorage = contents.get(uniqueID);
-////        System.out.println("sandeep" + appContents.modifiedApp);
-//        if (appContents.modifiedApp.equals("null"))
-//            return;
-//        System.out.println("not here");
-//        if (contents.containsKey(uniqueID)) {
-//            
-//            ArrayList<String> installedAppsNew = appContents.appList;
-////            newAppInfo.put(uniqueID, appContents.modifiedApp);
-//            for (int i = 0; i < installedAppsNew.size(); i++) {
-//                Boolean found = Boolean.FALSE;
-//                String thisApp = installedAppsNew.get(i);
-//                for (int j = 0; j < installedAppsStorage.size(); j++) {
-//                    if (thisApp == installedAppsStorage.get(j)) {
-//                        found = Boolean.TRUE;
-//                        break;
-//                    }
-//                }
-//                if (!found) {
-//                    installedAppsStorage.add(thisApp);
-//                }
-//            }
-//            contents.put(uniqueID, installedAppsStorage);
-//        }
-//        else {
-//            contents.put(uniqueID, appContents);
-////            newAppInfo.put(uniqueID, appContents.modifiedApp);
-//        }
+
     }
     
     public void getParsedData() throws ParseException {
@@ -156,18 +139,13 @@ public class Storage {
                     + "<td>"
                     + deviceID
                     + "</td>";
-            if (contents.get(uniqueID).added) {
-                retString = retString 
-                    + "<td>"
-                    + "<li><a href=\""
-                    + "http://eb4.cs.umbc.edu/forceclusters.php?appid="
-                    + contents.get(uniqueID).modifiedApp.replaceAll("\\.", "-")
-//                    + newAppInfo.get(uniqueID).replaceAll("\\.", "-")
-                    + "\">"
-                    + contents.get(uniqueID).modifiedApp
-//                    + newAppInfo.get(uniqueID)
-                    + "</a></li>"
-                    + "</td>";
+            
+            String thisAdded = contents.get(uniqueID).addedApp;
+            String thisRemoved = contents.get(uniqueID).removedApp;
+            Boolean addedFlag = contents.get(uniqueID).added;
+            if (thisAdded.equals("") || 
+                    (thisAdded.equalsIgnoreCase(thisRemoved) && 
+                      !addedFlag)) {
                 retString = retString 
                     + "<td>"
                     + "<li>"
@@ -176,40 +154,37 @@ public class Storage {
             } else {
                 retString = retString 
                     + "<td>"
+                    + "<li><a href=\""
+                    + "http://eb4.cs.umbc.edu/forceclusters.php?appid="
+                    + thisAdded.replaceAll("\\.", "-")
+                    + "\">"
+                    + thisAdded
+                    + "</a></li>"
+                    + "</td>";
+            }
+            if (thisRemoved.equals("") || 
+                    (thisRemoved.equalsIgnoreCase(thisAdded) && 
+                      addedFlag)) {
+                retString = retString 
+                    + "<td>"
                     + "<li>"
                     + "</li>"
                     + "</td>";
+            } else {
                 retString = retString 
                     + "<td>"
                     + "<li><a href=\""
                     + "http://eb4.cs.umbc.edu/forceclusters.php?appid="
-                    + contents.get(uniqueID).modifiedApp.replaceAll("\\.", "-")
-//                    + newAppInfo.get(uniqueID).replaceAll("\\.", "-")
+                    + thisRemoved.replaceAll("\\.", "-")
                     + "\">"
-                    + contents.get(uniqueID).modifiedApp
-//                    + newAppInfo.get(uniqueID)
+                    + thisRemoved
                     + "</a></li>"
                     + "</td>";
             }
             
-//            retString = retString 
-//                    + "<td>"
-//                    + "<li><a href=\""
-//                    + "http://eb4.cs.umbc.edu/forceclusters.php?appid="
-//                    + contents.get(uniqueID).modifiedApp.replaceAll("\\.", "-")
-////                    + newAppInfo.get(uniqueID).replaceAll("\\.", "-")
-//                    + "\">"
-//                    + contents.get(uniqueID).modifiedApp
-////                    + newAppInfo.get(uniqueID)
-//                    + "</a></li>"
-//                    + "</td>";
+            
                     
             retString = retString +
-//                    "<td  class=\"user-actions\">\n" +
-//"                          <span>\n" +
-//"                            <a class=\"label label-success\" href=\"javascript:void(0);\">....Info...</a> \n" +
-//"                          </span>\n" +
-//"                      </td>" +
                     "<td class = \"pagination-centered text-centered\">\n" +
 "                        <div class=\"btn-group\">\n" +
 "                            <a class=\"btn\" href=\".\"><i class=\"icon-user\"></i> Apps</a>\n" +
@@ -220,16 +195,22 @@ public class Storage {
             
             ArrayList<String> applist = (ArrayList<String>)((AppContents)thisEntry.getValue()).appList;
             retString = retString  
-                    + "<li><a href=\".\">"
+                    + "<li><a href=\""
+                    + "http://eb4.cs.umbc.edu/forceclusters.php?appid="
+                    + applist.get(0).replaceAll("\\.", "-")
+                    + "\">"
                     + applist.get(0)
                     + "</a></li>";
             
             for (int i = 1; i < applist.size(); i++) {
                 retString = retString 
                         + "<li class=\"divider\"></li>"
-                    + "<li><a href=\".\">"
-                    + applist.get(i)
-                    + "</a></li>";
+                        + "<li><a href=\""
+                        + "http://eb4.cs.umbc.edu/forceclusters.php?appid="
+                        + applist.get(0).replaceAll("\\.", "-")
+                        + "\">"
+                        + applist.get(i)
+                        + "</a></li>";
                 
             }
             retString = retString +
