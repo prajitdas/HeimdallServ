@@ -89,9 +89,9 @@ public class GenerateHTML {
 "        <div class=\"col-sm-3 col-md-2 sidebar\">\n" +
 "          <ul class=\"nav nav-sidebar\">\n" +
 "            <li class=\"active\"><a href=\".\">Overview <span class=\"sr-only\">(current)</span></a></li>\n" +
-"            <li><a href=\"http://eb4.cs.umbc.edu/forceclusters.php?appid=com.healthifyme.basic\">Reports</a></li>\n" +
-"            <li><a href=\"http://eb4.cs.umbc.edu/forceclusters.php?appid=com.healthifyme.basic\">Analytics</a></li>\n" +
-"            <li><a href=\"http://eb4.cs.umbc.edu/forceclusters.php?appid=com.healthifyme.basic\">Export</a></li>\n" +
+"            <li><a href=\"http://eb4.cs.umbc.edu/forceclusters.php?appid=com-healthifyme-basic\">Reports</a></li>\n" +
+"            <li><a href=\"http://eb4.cs.umbc.edu/forceclusters.php?appid=com-healthifyme-basic\">Analytics</a></li>\n" +
+"            <li><a href=\"http://eb4.cs.umbc.edu/forceclusters.php?appid=com-healthifyme-basic\">Export</a></li>\n" +
 "          </ul>\n" +
 "        </div>\n" +
 "        <div class=\"col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main\">\n" +
