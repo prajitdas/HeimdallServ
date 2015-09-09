@@ -81,6 +81,8 @@ public class WebserviceHelper {
 				
 				String request = reqXMLPrefix+writeDataToStream()+reqXMLPostfix;
 				
+				Log.d(HMAApplication.getDebugTag(), request);
+				
 				URL url;		
 				HttpURLConnection httpURLConnection = null;
 				try {

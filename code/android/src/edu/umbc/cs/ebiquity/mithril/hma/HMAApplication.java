@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 public class HMAApplication extends Application {
 	private static SharedPreferences preferences;
 	private static final String APPLIST_FILENAME = "applist.json";
-	private static final String DEBUG_TAG = "CURRENT_APPS_DEBUG_TAG";
+	private static final String DEBUG_TAG = "HMA_APPLICATION_DEBUG_TAG";
 	private static final String CONST_DATA_COLLECTION_COMPLETE = "CONST_DATA_COLLECTION_COMPLETE";
 	private static final String CONST_ACCEPT_DECISION_KEY = "acceptDecisionKey";	
 	private static final String CONST_WEBSERVICE_URI = "http://eb4.cs.umbc.edu:1234/ws/datamanager";
