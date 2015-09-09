@@ -29,8 +29,8 @@ import org.json.simple.parser.ParseException;
  */
 public class Storage {
     private ArrayList<String> storageContents = new ArrayList<>();
-    public HashMap<String,ArrayList<String>> contents = new HashMap<>();
-    public HashMap<String,String> newAppInfo = new HashMap<>();
+    public HashMap<String,AppContents> contents = new HashMap<>();
+//    public HashMap<String,String> newAppInfo = new HashMap<>();
     private String permanentStorage = "per.storage";
     
     public Storage() {
@@ -50,6 +50,11 @@ public class Storage {
         appContents.deviceID = (String)jobjName.get("deviceId");
         JSONArray appList = (JSONArray)jobjName.get("currentApps");
         appContents.modifiedApp = (String)jobjName.get("modifiedApp");
+        if (((String)jobjName.get("installFlag")).equals("true")) {
+            appContents.added = Boolean.TRUE;
+        } else {
+            appContents.added = Boolean.FALSE;
+        }
         for (int j = 0; j < appList.size(); j++) {
             appContents.appList.add((String)appList.get(j));
         }
@@ -70,33 +75,40 @@ public class Storage {
         String userName = appContents.userName;
         String deviceID = appContents.deviceID;
         String uniqueID = getUniqueID(userName, deviceID);
-        ArrayList<String> installedAppsStorage = contents.get(uniqueID);
-        System.out.println("New App Installed : " + appContents.modifiedApp);
-        if (appContents.modifiedApp.equals("null"))
-            return;
-        //System.out.println("not here");
         if (contents.containsKey(uniqueID)) {
-            ArrayList<String> installedAppsNew = appContents.appList;
-            newAppInfo.put(uniqueID, appContents.modifiedApp);
-            for (int i = 0; i < installedAppsNew.size(); i++) {
-                Boolean found = Boolean.FALSE;
-                String thisApp = installedAppsNew.get(i);
-                for (int j = 0; j < installedAppsStorage.size(); j++) {
-                    if (thisApp == installedAppsStorage.get(j)) {
-                        found = Boolean.TRUE;
-                        break;
-                    }
-                }
-                if (!found) {
-                    installedAppsStorage.add(thisApp);
-                }
-            }
-            contents.put(uniqueID, installedAppsStorage);
+            contents.put(uniqueID, appContents);
         }
         else {
-            contents.put(uniqueID, appContents.appList);
-            newAppInfo.put(uniqueID, appContents.modifiedApp);
+            contents.put(uniqueID, appContents);
         }
+//        ArrayList<String> installedAppsStorage = contents.get(uniqueID);
+////        System.out.println("sandeep" + appContents.modifiedApp);
+//        if (appContents.modifiedApp.equals("null"))
+//            return;
+//        System.out.println("not here");
+//        if (contents.containsKey(uniqueID)) {
+//            
+//            ArrayList<String> installedAppsNew = appContents.appList;
+////            newAppInfo.put(uniqueID, appContents.modifiedApp);
+//            for (int i = 0; i < installedAppsNew.size(); i++) {
+//                Boolean found = Boolean.FALSE;
+//                String thisApp = installedAppsNew.get(i);
+//                for (int j = 0; j < installedAppsStorage.size(); j++) {
+//                    if (thisApp == installedAppsStorage.get(j)) {
+//                        found = Boolean.TRUE;
+//                        break;
+//                    }
+//                }
+//                if (!found) {
+//                    installedAppsStorage.add(thisApp);
+//                }
+//            }
+//            contents.put(uniqueID, installedAppsStorage);
+//        }
+//        else {
+//            contents.put(uniqueID, appContents);
+////            newAppInfo.put(uniqueID, appContents.modifiedApp);
+//        }
     }
     
     public void getParsedData() throws ParseException {
@@ -104,8 +116,8 @@ public class Storage {
         for (int i = 0; i < storageContents.size(); i ++) {
             AppContents appContents = getAppContentsFromJson(storageContents.get(i));
             String uniqueID = getUniqueID(appContents.userName, appContents.deviceID);
-            contents.put(uniqueID, appContents.appList);
-            newAppInfo.put(uniqueID, appContents.modifiedApp);
+            contents.put(uniqueID, appContents);
+//            newAppInfo.put(uniqueID, appContents.modifiedApp);
         }
     }
     
@@ -113,7 +125,7 @@ public class Storage {
         Iterator it = contents.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry thisEntry = (Map.Entry < String, ArrayList<String>>)it.next();
-            //System.out.println(thisEntry.getKey() + " - " + thisEntry.getValue().toString());
+            System.out.println(thisEntry.getKey() + " - " + thisEntry.getValue().toString());
         }
     }
     public String getStorage(String seperator) {
@@ -144,15 +156,53 @@ public class Storage {
                     + "<td>"
                     + deviceID
                     + "</td>";
-            retString = retString 
+            if (contents.get(uniqueID).added) {
+                retString = retString 
                     + "<td>"
                     + "<li><a href=\""
                     + "http://eb4.cs.umbc.edu/forceclusters.php?appid="
-                    + newAppInfo.get(uniqueID).replaceAll("\\.", "-")
+                    + contents.get(uniqueID).modifiedApp.replaceAll("\\.", "-")
+//                    + newAppInfo.get(uniqueID).replaceAll("\\.", "-")
                     + "\">"
-                    + newAppInfo.get(uniqueID)
+                    + contents.get(uniqueID).modifiedApp
+//                    + newAppInfo.get(uniqueID)
                     + "</a></li>"
                     + "</td>";
+                retString = retString 
+                    + "<td>"
+                    + "<li>"
+                    + "</li>"
+                    + "</td>";
+            } else {
+                retString = retString 
+                    + "<td>"
+                    + "<li>"
+                    + "</li>"
+                    + "</td>";
+                retString = retString 
+                    + "<td>"
+                    + "<li><a href=\""
+                    + "http://eb4.cs.umbc.edu/forceclusters.php?appid="
+                    + contents.get(uniqueID).modifiedApp.replaceAll("\\.", "-")
+//                    + newAppInfo.get(uniqueID).replaceAll("\\.", "-")
+                    + "\">"
+                    + contents.get(uniqueID).modifiedApp
+//                    + newAppInfo.get(uniqueID)
+                    + "</a></li>"
+                    + "</td>";
+            }
+            
+//            retString = retString 
+//                    + "<td>"
+//                    + "<li><a href=\""
+//                    + "http://eb4.cs.umbc.edu/forceclusters.php?appid="
+//                    + contents.get(uniqueID).modifiedApp.replaceAll("\\.", "-")
+////                    + newAppInfo.get(uniqueID).replaceAll("\\.", "-")
+//                    + "\">"
+//                    + contents.get(uniqueID).modifiedApp
+////                    + newAppInfo.get(uniqueID)
+//                    + "</a></li>"
+//                    + "</td>";
                     
             retString = retString +
 //                    "<td  class=\"user-actions\">\n" +
@@ -168,13 +218,13 @@ public class Storage {
 "                            </a>\n" +
 "                            <ul class=\"dropdown-menu\">";
             
-            ArrayList<String> applist = (ArrayList<String>)thisEntry.getValue();
+            ArrayList<String> applist = (ArrayList<String>)((AppContents)thisEntry.getValue()).appList;
             retString = retString  
                     + "<li><a href=\".\">"
                     + applist.get(0)
                     + "</a></li>";
             
-            for (int i = 1; i < ((ArrayList<String>)thisEntry.getValue()).size(); i++) {
+            for (int i = 1; i < applist.size(); i++) {
                 retString = retString 
                         + "<li class=\"divider\"></li>"
                     + "<li><a href=\".\">"
