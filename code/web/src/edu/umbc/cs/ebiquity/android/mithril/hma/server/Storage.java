@@ -239,7 +239,7 @@ public class Storage {
 "                  </tr>";
         }
         for (int i = countLines; i < 20; i ++) {
-            retString = retString + "<tr><td>.</td><td></td><td></td><td></td><td></td></tr>";
+            retString = retString + "<tr><td>.</td><td></td><td></td><td></td><td></td><td></td></tr>";
         }
         return retString;
     }

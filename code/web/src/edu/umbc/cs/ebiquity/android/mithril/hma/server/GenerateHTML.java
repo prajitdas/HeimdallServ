@@ -30,7 +30,7 @@ public class GenerateHTML {
         String html = "<!DOCTYPE html>\n" +
 "<!-- saved from url=(0043)http:// -->\n" +
 "<html lang=\"en\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n" +
-"<meta http-equiv=\"refresh\" content=\"100\"; URL=\".\">    <meta charset=\"utf-8\">\n" +
+"<meta http-equiv=\"refresh\" content=\"10\"; URL=\".\">    <meta charset=\"utf-8\">\n" +
 "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n" +
 "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
 "    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->\n" +
@@ -48,7 +48,7 @@ public class GenerateHTML {
 "\n" +
 "    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->\n" +
 "    <!--[if lt IE 9]><script src=\"../../assets/js/ie8-responsive-file-warning.js\"></script><![endif]-->\n" +
-"    <script src=\"./AdminDashboard_files/ie-emulation-modes-warning.js\"></script>\n" +
+"    <script src=\"./assets/ie-emulation-modes-warning.js\"></script>\n" +
 "\n" +
 "    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->\n" +
 "    <!--[if lt IE 9]>\n" +
@@ -89,9 +89,9 @@ public class GenerateHTML {
 "        <div class=\"col-sm-3 col-md-2 sidebar\">\n" +
 "          <ul class=\"nav nav-sidebar\">\n" +
 "            <li class=\"active\"><a href=\".\">Overview <span class=\"sr-only\">(current)</span></a></li>\n" +
-"            <li><a href=\"http://userpages.umbc.edu/~law8/malapp/forceclusters.html\">Reports</a></li>\n" +
-"            <li><a href=\"http://userpages.umbc.edu/~law8/malapp/forceclusters.html\">Analytics</a></li>\n" +
-"            <li><a href=\"http://userpages.umbc.edu/~law8/malapp/forceclusters.html\">Export</a></li>\n" +
+"            <li><a href=\"http://eb4.cs.umbc.edu/forceclusters.php?appid=com.healthifyme.basic\">Reports</a></li>\n" +
+"            <li><a href=\"http://eb4.cs.umbc.edu/forceclusters.php?appid=com.healthifyme.basic\">Analytics</a></li>\n" +
+"            <li><a href=\"http://eb4.cs.umbc.edu/forceclusters.php?appid=com.healthifyme.basic\">Export</a></li>\n" +
 "          </ul>\n" +
 "        </div>\n" +
 "        <div class=\"col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main\">\n" +
@@ -99,22 +99,22 @@ public class GenerateHTML {
 "<div class=\"well hero-unit\">\n" +
 "          <div class=\"row placeholders\">\n" +
 "            <div class=\"col-xs-6 col-sm-3 placeholder\">\n" +
-"              <img HEIGHT=100 WIDTH=100 src= \"AdminDashboard_files/AndroidApp.png\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
+"              <img HEIGHT=100 WIDTH=100 src= \"https://raw.githubusercontent.com/Ebiquity/Mithril/master/Icon%20Resource/androidWithShieldHMA.png?token=ACkeVvXOwN5tRp9C0FAown8orsZi9GN5ks5V-MiMwA%3D%3D\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
 "              <h4>Overall User Statistics</h4>\n" +
 "              <!--<span class=\"text-muted\">Complete </span>-->\n" +
 "            </div>\n" +
 "            <div class=\"col-xs-6 col-sm-3 placeholder\">\n" +
-"              <img HEIGHT=100 WIDTH=100 src= \"AdminDashboard_files/AndroidApp.png\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
+"              <img HEIGHT=100 WIDTH=100 src= \"https://raw.githubusercontent.com/Ebiquity/Mithril/master/Icon%20Resource/androidWithShieldHMA.png?token=ACkeVvXOwN5tRp9C0FAown8orsZi9GN5ks5V-MiMwA%3D%3D\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
 "              <h4>Today's User Statistics</h4>\n" +
 "              <!--<span class=\"text-muted\">UMBC</span>-->\n" +
 "            </div>\n" +
 "            <div class=\"col-xs-6 col-sm-3 placeholder\">\n" +
-"              <img HEIGHT=100 WIDTH=100 src= \"AdminDashboard_files/AndroidApp.png\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
+"              <img HEIGHT=100 WIDTH=100 src= \"https://raw.githubusercontent.com/Ebiquity/Mithril/master/Icon%20Resource/androidWithShieldHMA.png?token=ACkeVvXOwN5tRp9C0FAown8orsZi9GN5ks5V-MiMwA%3D%3D\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
 "              <h4>Security Events</h4>\n" +
 "              <!--<span class=\"text-muted\">UMBC</span>-->\n" +
 "            </div>\n" +
 "            <div class=\"col-xs-6 col-sm-3 placeholder\">\n" +
-"              <img HEIGHT=100 WIDTH=100 src= \"AdminDashboard_files/AndroidApp.png\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
+"              <img HEIGHT=100 WIDTH=100 src= \"https://raw.githubusercontent.com/Ebiquity/Mithril/master/Icon%20Resource/androidWithShieldHMA.png?token=ACkeVvXOwN5tRp9C0FAown8orsZi9GN5ks5V-MiMwA%3D%3D\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
 "              <h4>Actions Recommended</h4>\n" +
 "              <!--<span class=\"text-muted\">UMBC</span>-->\n" +
 "            </div>\n" +
@@ -147,12 +147,12 @@ public class GenerateHTML {
 "    <!-- Bootstrap core JavaScript\n" +
 "    ================================================== -->\n" +
 "    <!-- Placed at the end of the document so the pages load faster -->\n" +
-"    <script src=\"./AdminDashboard_files/jquery.min.js\"></script>\n" +
-"    <script src=\"./AdminDashboard_files/bootstrap.min.js\"></script>\n" +
+"    <script src=\"./assets/jquery.min.js\"></script>\n" +
+"    <script src=\"./assets/bootstrap.min.js\"></script>\n" +
 "    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->\n" +
-"    <script src=\"./AdminDashboard_files/holder.min.js\"></script>\n" +
+"    <script src=\"./assets/holder.min.js\"></script>\n" +
 "    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->\n" +
-"    <script src=\"./AdminDashboard_files/ie10-viewport-bug-workaround.js\"></script>\n" +
+"    <script src=\"./assets/ie10-viewport-bug-workaround.js\"></script>\n" +
 "  \n" +
 "\n" +
 "</body></html>";
