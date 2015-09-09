@@ -18,6 +18,10 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,11 +45,9 @@ public class ShowAppsMainActivity extends ListActivity implements ConnectionCall
      */ 
     protected GoogleApiClient mGoogleApiClient;
 	private PackageManager packageManager;
-	private List<ApplicationInfo> appsList;
+	private List<ApplicationInfo> appList;
 	private AppsAdapter listAdapter;
-//	private TextView mCurrentAppsDataCollectionAgreementTxtView;
-//	private Button mAcceptAgreementBtn;
-//	private Button mStartSvcBtn;
+	private ListView listView;
 	
 	private static HMADBHelper hmaDBHelper;
 	private static SQLiteDatabase hmaDB;
@@ -69,17 +71,29 @@ public class ShowAppsMainActivity extends ListActivity implements ConnectionCall
 		 */
 		initDB();
 		initViews();
-//		setOnClickListeners();
-//		storeListOfAppsInstalled();
-		StringBuffer result = new StringBuffer();
-		for(String app:hmaDBHelper.readApps(hmaDB)) {
-			result.append(app);
-		}
 		
-		Log.d(HMAApplication.getDebugTag(), "List has: "+result.toString());
 		startCurrentAppsService();
+		setOnClickListeners();
 	}
 	
+    private void setOnClickListeners() {
+    	listView.setOnItemClickListener(new OnItemClickListener() { 
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+ 
+				// ListView Clicked item index
+				int itemPosition = position;
+				
+				// ListView Clicked item value
+				String itemValue = (String) listView.getItemAtPosition(position);
+				   
+				// Show Alert 
+				Toast.makeText(getApplicationContext(),
+				"Position :"+itemPosition+"  ListItem : " +itemValue , Toast.LENGTH_LONG)
+				.show();
+            } 
+        });
+    }
+
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -105,29 +119,22 @@ public class ShowAppsMainActivity extends ListActivity implements ConnectionCall
 		 */
 		hmaDBHelper = new HMADBHelper(this);
 		hmaDB = hmaDBHelper.getWritableDatabase();
+		StringBuffer result = new StringBuffer();
+		for(String app:hmaDBHelper.readApps(hmaDB)) {
+			result.append(app);
+		}
 	}
 	
 	private void initViews() {
 		buildGoogleApiClient();
-//		File file = new File(getFilesDir(), HMAApplication.getApplistFilename());
 		HMAApplication.setPreferences(PreferenceManager.getDefaultSharedPreferences(this));
-
 		packageManager = getApplicationContext().getPackageManager();
-		appsList = new ArrayList<ApplicationInfo>();
+		
+		listView = (ListView) findViewById(R.id.list);
+		setAppList();
 
-		List<ApplicationInfo> tempAppsList = new ArrayList<ApplicationInfo>();
-		tempAppsList = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
-		for(ApplicationInfo appInfo : tempAppsList) {
-			try {
-				if(appInfo.packageName != null) {
-					appsList.add(appInfo);
-				}
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-		}
-		listAdapter = new AppsAdapter(ShowAppsMainActivity.this, R.layout.app_list_item, appsList);
-		setListAdapter(listAdapter);
+		listAdapter = new AppsAdapter(ShowAppsMainActivity.this, R.layout.app_list_item, getAppList());
+		listView.setAdapter(listAdapter);
 
 /*
 		mCurrentAppsDataCollectionAgreementTxtView = (TextView) findViewById(R.id.currentAppsDataCollectionAgreementTxtView);
@@ -178,40 +185,7 @@ public class ShowAppsMainActivity extends ListActivity implements ConnectionCall
         if (mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
         } 
-    } 
-    
-//    private void storeListOfAppsInstalled() {
-//		AppListJson appListJson = new AppListJson();
-//		for(ApplicationInfo appInfo : getPackageManager().getInstalledApplications(PackageManager.GET_META_DATA)) {
-//			try {
-//				if(appInfo.packageName != null)
-//					appListJson.appList.add(appInfo.packageName);
-//			} catch(Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		Gson gson = new Gson();
-//		String jsonData = gson.toJson(appListJson);
-//		SharedPreferences.Editor appListEditor = HMAApplication.getPreferences().edit();
-//		appListEditor.putString("appListJson", jsonData);
-//		appListEditor.commit();
-//		writeToFile(jsonData);
-//	}
-//
-//	private void writeToFile(String data) {
-//		FileOutputStream outputStream;
-//	    try { 
-//	    	outputStream = openFileOutput(HMAApplication.getApplistFilename(), Context.MODE_PRIVATE);
-//	    	outputStream.write(data.getBytes());
-//	    	outputStream.close();
-//	    } 
-//	    catch (FileNotFoundException e) {
-//	        Log.e("Exception", "File write failed: " + e.toString());
-//	    }  
-//	    catch (IOException e) {
-//	        Log.e("Exception", "File write failed: " + e.toString());
-//	    }  
-//	} 
+    }
 	
 /*	private void setOnClickListeners() {
 		mAcceptAgreementBtn.setOnClickListener(new OnClickListener() {
@@ -299,5 +273,24 @@ public class ShowAppsMainActivity extends ListActivity implements ConnectionCall
 		// attempt to re-establish the connection. 
 		Log.i(HMAApplication.getDebugTag(), "Connection suspended");
 		mGoogleApiClient.connect();
+	}
+
+	public List<ApplicationInfo> getAppList() {
+		return appList;
+	}
+
+	public void setAppList() {
+		appList = new ArrayList<ApplicationInfo>();
+		List<ApplicationInfo> tempAppsList = new ArrayList<ApplicationInfo>();
+		tempAppsList = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
+		for(ApplicationInfo appInfo : tempAppsList) {
+			try {
+				if(appInfo.packageName != null) {
+					appList.add(appInfo);
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

@@ -15,8 +15,7 @@
 	    <ScrollView 
 	        android:layout_height="match_parent"         
 	        android:layout_width="match_parent"     
-	        android:scrollbars="horizontal|vertical" 
-	        android:layout_marginTop="5dip"     
+	        android:scrollbars="horizontal|vertical"     
 	        android:scrollbarStyle="outsideInset"
 	        android:fadeScrollbars="false"
 	        android:fillViewport="true"> 
@@ -25,53 +24,13 @@
 	            android:layout_width="match_parent"
 	            android:scrollbars="horizontal|vertical" 
 	            android:fadeScrollbars="false"
-	            android:layout_marginTop="5dip"
 	            android:fillViewport="true">
 				<ListView
-				    android:id="@android:id/list"
+				    android:id="@+id/list"
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content" >
 				</ListView>
 	        </HorizontalScrollView>
 	    </ScrollView>
 	</LinearLayout>
-	
-	<!-- <ScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/acceptAgreementBtn"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:scrollbars="vertical" >
-
-	    <TextView
-	        android:id="@+id/currentAppsDataCollectionAgreementTxtView"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:typeface="serif"
-	        android:textSize="18sp">
-	    </TextView>
-
-    </ScrollView>
-
-    <Button
-        android:id="@+id/acceptAgreementBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/startCurrentAppsSvcBtn"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:text="@string/acceptAgreenentBtnTxt" />
-
-    <Button
-        android:id="@+id/startCurrentAppsSvcBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:text="@string/StartCurrentAppsSvcBtnTxt" /> -->
-
 </RelativeLayout>
