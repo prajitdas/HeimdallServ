@@ -149,6 +149,8 @@ public class WebserviceHelper {
 		JSONObject jsonParam = new JSONObject();
 		jsonParam.put("identity", tempContextData.getIdentity());
 		jsonParam.put("modifiedApp",getRecentlyChangedAppPackageName());
+		jsonParam.put("deviceId",getDeviceId());
+		jsonParam.put("installFlag",getInstallFlag().toString());
 //			jsonParam.put("location", appContextData.getLocation());
 //			jsonParam.put("activity", appContextData.getActivity());
 //			jsonParam.put("time", appContextData.getTime());
@@ -165,8 +167,6 @@ public class WebserviceHelper {
 //			Log.d(HMAApplication.getDebugTag(), "in application info writing JSON");
 		}
 		jsonParam.put("currentApps",jsonArray);
-		jsonParam.put("deviceId",getDeviceId());
-		jsonParam.put("installFlag",getInstallFlag().toString());
 		
 //		Log.d(HMAApplication.getDebugTag(), jsonParam.toString());
 		return jsonParam.toString();

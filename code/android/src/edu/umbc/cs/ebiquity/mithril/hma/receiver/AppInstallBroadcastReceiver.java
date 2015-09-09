@@ -28,20 +28,11 @@ public class AppInstallBroadcastReceiver extends BroadcastReceiver {
 		 * Constant Value: "android.intent.action.PACKAGE_ADDED"
 		 */
 		if(intent.getAction() == "android.intent.action.PACKAGE_ADDED") {
-			Log.d(HMAApplication.getDebugTag(), "intent received");
 			message = "New app installed is: " + webserviceHelper.findNewlyInstalledApp(Intent.EXTRA_UID);
+			Log.d(HMAApplication.getDebugTag(), "Installation complete!\n"+message);
 			webserviceHelper.collectTheData();
 			webserviceHelper.sendTheData();
 			Notification(context, message);
-//			try {
-//				webserviceHelper.sendDataSync();
-//			} catch (JSONException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
 		}
 		/**
 		 * Broadcast Action: An existing application package has been changed (e.g. a component has been enabled or disabled). The data contains the name of the package.
@@ -72,10 +63,11 @@ public class AppInstallBroadcastReceiver extends BroadcastReceiver {
 			/**
 			 * Don't send data on uninstall app for now
 			 */
-			Log.d(HMAApplication.getDebugTag(), "package removed, nothing to do");
-//			message = "An existing application package has been removed from the device: " + webserviceHelper.findPackageRemoved(Intent.EXTRA_UID);
-//			webserviceHelper.collectTheData();
-//			webserviceHelper.sendTheData();
+			message = "An existing application package has been removed from the device: " + webserviceHelper.findPackageRemoved(Intent.EXTRA_UID);
+			Log.d(HMAApplication.getDebugTag(), "Uninstallation complete!\n"+message);
+			webserviceHelper.collectTheData();
+			webserviceHelper.sendTheData();
+			Notification(context, message);
 		}
 		/**
 		 * Broadcast Action: A new version of an application package has been installed, replacing an existing version that was previously installed. The data contains the name of the package.
