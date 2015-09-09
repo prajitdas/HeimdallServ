@@ -15,6 +15,7 @@ public class AppContents {
     public String userName;
     public String deviceID;
     public ArrayList<String> appList = new ArrayList<>();
+    public Boolean added;
     public String modifiedApp = "";
         
 }
