@@ -30,7 +30,7 @@ public class GenerateHTML {
         String html = "<!DOCTYPE html>\n" +
 "<!-- saved from url=(0043)http:// -->\n" +
 "<html lang=\"en\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n" +
-"<meta http-equiv=\"refresh\" content=\"5\"; URL=\".\">    <meta charset=\"utf-8\">\n" +
+"<meta http-equiv=\"refresh\" content=\"100\"; URL=\".\">    <meta charset=\"utf-8\">\n" +
 "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n" +
 "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
 "    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->\n" +
@@ -99,28 +99,28 @@ public class GenerateHTML {
 "<div class=\"well hero-unit\">\n" +
 "          <div class=\"row placeholders\">\n" +
 "            <div class=\"col-xs-6 col-sm-3 placeholder\">\n" +
-"              <img HEIGHT=100 WIDTH=100 src= \"https://raw.githubusercontent.com/Ebiquity/Mithril/master/Icon%20Resource/androidWithShieldHMA.png?token=ACkeVgWS0mM6D3-I2FXOcHJNU2zt1dPlks5V8l1dwA%3D%3D\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
+"              <img HEIGHT=100 WIDTH=100 src= \"AdminDashboard_files/AndroidApp.png\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
 "              <h4>Overall User Statistics</h4>\n" +
 "              <!--<span class=\"text-muted\">Complete </span>-->\n" +
 "            </div>\n" +
 "            <div class=\"col-xs-6 col-sm-3 placeholder\">\n" +
-"              <img HEIGHT=100 WIDTH=100 src= \"https://raw.githubusercontent.com/Ebiquity/Mithril/master/Icon%20Resource/androidWithShieldHMA.png?token=ACkeVgWS0mM6D3-I2FXOcHJNU2zt1dPlks5V8l1dwA%3D%3D\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
+"              <img HEIGHT=100 WIDTH=100 src= \"AdminDashboard_files/AndroidApp.png\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
 "              <h4>Today's User Statistics</h4>\n" +
 "              <!--<span class=\"text-muted\">UMBC</span>-->\n" +
 "            </div>\n" +
 "            <div class=\"col-xs-6 col-sm-3 placeholder\">\n" +
-"              <img HEIGHT=100 WIDTH=100 src= \"https://raw.githubusercontent.com/Ebiquity/Mithril/master/Icon%20Resource/androidWithShieldHMA.png?token=ACkeVgWS0mM6D3-I2FXOcHJNU2zt1dPlks5V8l1dwA%3D%3D\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
+"              <img HEIGHT=100 WIDTH=100 src= \"AdminDashboard_files/AndroidApp.png\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
 "              <h4>Security Events</h4>\n" +
 "              <!--<span class=\"text-muted\">UMBC</span>-->\n" +
 "            </div>\n" +
 "            <div class=\"col-xs-6 col-sm-3 placeholder\">\n" +
-"              <img HEIGHT=100 WIDTH=100 src= \"https://raw.githubusercontent.com/Ebiquity/Mithril/master/Icon%20Resource/androidWithShieldHMA.png?token=ACkeVgWS0mM6D3-I2FXOcHJNU2zt1dPlks5V8l1dwA%3D%3D\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
+"              <img HEIGHT=100 WIDTH=100 src= \"AdminDashboard_files/AndroidApp.png\" class=\"img-responsive\" alt=\"Generic placeholder thumbnail\">\n" +
 "              <h4>Actions Recommended</h4>\n" +
 "              <!--<span class=\"text-muted\">UMBC</span>-->\n" +
 "            </div>\n" +
 "          </div>\n" +
 "    <div class=\"text-muted\"><h4>Hi, Admin</h4>\n" +
-"        <p>Welcome to Heimdall. There are no security events which require your urgent attention.  </p></div>\n" +
+"        <p>Welcome to Heimdall. There are no security events which require your urgent attention. You have <a href= \"\">3 meetings</a> scheduled for today.  </p></div>\n" +
 "        </div>\n" +
 "          <h2 class=\"sub-header\">Admin Panel</h2>\n" +
 "          <div class=\"table-responsive\">\n" +
@@ -130,7 +130,8 @@ public class GenerateHTML {
 "                  <th>User Name</th>\n" +
 "                  <th>Email </th>\n" +
 "                  <th>DeviceID </th>\n" +
-"                  <th>New Application</th>\n" +
+"                  <th>Application Added</th>\n" +
+"                  <th>Application Removed</th>\n" +
 "                  <th>All Installed Applications</th>\n" +
 "                </tr>\n" +
 "              </thead>\n" +
