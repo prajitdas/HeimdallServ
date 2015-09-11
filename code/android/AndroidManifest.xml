@@ -15,6 +15,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS"/>
 
     <application
         android:allowBackup="true"
@@ -30,16 +31,19 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.NotificationView" />
-
-        <activity
-            android:name=".ui.ViewPermissionsActivity"
-            android:label="@string/title_activity_view_permissions" >
+        <activity 
+            android:name=".ui.NotificationView"
+            android:label="@string/title_activity_notification_view" >
         </activity>
 
-        <activity
-            android:name=".ui.SendAppDataToServerActivity"
+        <activity 
+            android:name=".ui.SendAppDataToServerSettingsActivity"
             android:label="@string/title_activity_send_app_data_to_server" >
+        </activity>
+        
+        <activity
+            android:name=".ui.ViewAppDetailsActivity"
+            android:label="@string/title_activity_view_app_details" >
         </activity>
 
         <service

@@ -13,29 +13,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import edu.umbc.cs.ebiquity.mithril.hma.R;
 
-public class AppsAdapter extends ArrayAdapter<ApplicationInfo> {
-
-	private List<ApplicationInfo> appsList;
+public class AppListAdapter extends ArrayAdapter<ApplicationInfo> {
+	private List<ApplicationInfo> appList;
 	private Context context;
 	private PackageManager packageManager;
 	
-	public AppsAdapter(Context context, int resource, 
-			List<ApplicationInfo> objects) {
+	public AppListAdapter(Context context, int resource, List<ApplicationInfo> objects) {
 		super(context, resource, objects);
 
 		this.context = context;
-		this.appsList = objects;
+		this.appList = objects;
 		packageManager = context.getPackageManager();
 	}
 	
 	@Override
 	public int getCount() {
-		return ((appsList != null) ? appsList.size() : 0);
+		return ((appList != null) ? appList.size() : 0);
 	}
 
 	@Override
 	public ApplicationInfo getItem(int position) {
-		return 	((appsList != null) ? appsList.get(position) : null);
+		return 	((appList != null) ? appList.get(position) : null);
 	}
 	
 	@Override
@@ -53,17 +51,18 @@ public class AppsAdapter extends ArrayAdapter<ApplicationInfo> {
 			view = layoutInflater.inflate(R.layout.app_list_item, null);
 		}
 		
-		ApplicationInfo data = appsList.get(position);
+		ApplicationInfo data = appList.get(position);
 		
 		if(data != null) {
+			ImageView appIcon = (ImageView) view.findViewById(R.id.app_icon);
 			TextView appName = (TextView) view.findViewById(R.id.app_name);
 			TextView packageName = (TextView) view.findViewById(R.id.app_package);
-			ImageView iconView = (ImageView) view.findViewById(R.id.app_icon);
 			
+			appIcon.setImageDrawable(data.loadIcon(packageManager));
 			appName.setText(data.loadLabel(packageManager));
 			packageName.setText(data.packageName);
-			iconView.setImageDrawable(data.loadIcon(packageManager));
 		}
 		return view;
 	}
+
 }

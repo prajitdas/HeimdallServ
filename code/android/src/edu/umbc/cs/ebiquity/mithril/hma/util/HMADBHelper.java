@@ -111,8 +111,8 @@ public class HMADBHelper extends SQLiteOpenHelper {
 	public long createApp(SQLiteDatabase db, ApplicationInfo applicationInfo) {
 		long insertedRowId;
 		ContentValues values = new ContentValues();
-		if(applicationInfo.name != null)
-			values.put(getAppName(), applicationInfo.name);
+		if(applicationInfo.loadLabel(context.getPackageManager()).toString() != null)
+			values.put(getAppName(), applicationInfo.loadLabel(context.getPackageManager()).toString());
 		if(applicationInfo.packageName != null)
 			values.put(getAppPackageName(), applicationInfo.packageName);
 		else
@@ -127,13 +127,13 @@ public class HMADBHelper extends SQLiteOpenHelper {
 	}
 	
 	/**
-	 * Finds all apps
+	 * Finds all apps and return their package names
 	 * @param db
 	 * @return
 	 */
-	public List<String> readApps(SQLiteDatabase db) {
+	public List<String> readAppPackageNames(SQLiteDatabase db) {
 		// Select app Query
-		String selectQuery = "SELECT * FROM " + getAppTableName() + ";";
+		String selectQuery = "SELECT * FROM " + getAppTableName() + " ORDER BY " + getAppName() + ";";
 
 		List<String> apps = new ArrayList<String>();
 		try{
@@ -190,7 +190,10 @@ public class HMADBHelper extends SQLiteOpenHelper {
 	 */
 	private void loadDefaultDataIntoDB(SQLiteDatabase db) {
 		//get all apps
-		for(ApplicationInfo applicationInfo:context.getPackageManager().getInstalledApplications(PackageManager.GET_META_DATA))
+		for(ApplicationInfo applicationInfo:context.getPackageManager().getInstalledApplications(
+				PackageManager.GET_META_DATA 
+				| PackageManager.GET_SHARED_LIBRARY_FILES 
+				| PackageManager.GET_UNINSTALLED_PACKAGES))
 			createApp(db, applicationInfo);
 	}
 	public static String getId() {

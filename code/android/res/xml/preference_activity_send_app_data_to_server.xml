@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:title="@string/title_activity_send_app_data_to_server">
+
+    <PreferenceCategory android:title="@string/accept_agreenent_header_txt" >
+	    <CheckBoxPreference android:key="@string/pref_key_agree_to_send_data"
+	        android:summary="@string/accept_agreenent_check_box_txt"
+	        android:title="@string/accept_agreenent_check_box_summary_txt"
+	        android:defaultValue="false" android:persistent="true" android:enabled="false"/>
+    </PreferenceCategory>
+</PreferenceScreen>

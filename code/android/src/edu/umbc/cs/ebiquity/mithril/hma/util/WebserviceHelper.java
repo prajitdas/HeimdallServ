@@ -210,7 +210,7 @@ public class WebserviceHelper {
 	 * @return 
 	 */
 	public void collectTheData() {
-		for(String app:hmaDBHelper.readApps(hmaDB)) {
+		for(String app:hmaDBHelper.readAppPackageNames(hmaDB)) {
 			currentlyInstalledAppsList.add(app);
 		}
 	}
@@ -238,7 +238,7 @@ public class WebserviceHelper {
 		setPackageAdded(true);
 //		Log.d(HMAApplication.getDebugTag(), "finding new app");
 		Collection<String> appListPrev = new ArrayList<String>();
-		appListPrev = hmaDBHelper.readApps(hmaDB);
+		appListPrev = hmaDBHelper.readAppPackageNames(hmaDB);
 		Collection<String> appListNow = new ArrayList<String>();
 		for(ApplicationInfo appInfo : context.getPackageManager().getInstalledApplications(PackageManager.GET_META_DATA)) {
 			try {
@@ -272,7 +272,7 @@ public class WebserviceHelper {
 		setPackageRemoved(true);
 		Log.d(HMAApplication.getDebugTag(), "finding removed app");
 		Collection<String> appListPrev = new ArrayList<String>();
-		appListPrev = hmaDBHelper.readApps(hmaDB);
+		appListPrev = hmaDBHelper.readAppPackageNames(hmaDB);
 		Collection<String> appListNow = new ArrayList<String>();
 		for(ApplicationInfo appInfo : context.getPackageManager().getInstalledApplications(PackageManager.GET_META_DATA)) {
 			try {
