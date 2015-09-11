@@ -5,6 +5,6 @@
     <item
         android:id="@+id/send_data_to_server_settings"
         android:orderInCategory="100"
-        android:showAsAction="always"
+        android:showAsAction="collapseActionView"
         android:title="@string/send_data_to_server_settings_txt"/>
 </menu>
