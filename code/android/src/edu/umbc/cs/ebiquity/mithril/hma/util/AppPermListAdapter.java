@@ -5,6 +5,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.pm.PermissionInfo;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,21 +72,27 @@ public class AppPermListAdapter extends ArrayAdapter<PermissionInfo> {
 			switch(data.protectionLevel) {
 				case PermissionInfo.PROTECTION_NORMAL:
 			        protctionLevel = "normal";
+			        view.setBackgroundColor(Color.GREEN);
 			        break; 
 			    case PermissionInfo.PROTECTION_DANGEROUS:
 			        protctionLevel = "dangerous";
+			        view.setBackgroundColor(Color.RED);
 			        break; 
 			    case PermissionInfo.PROTECTION_SIGNATURE:
 			        protctionLevel = "signature";
+			        view.setBackgroundColor(Color.CYAN);
 			        break; 
 			    case PermissionInfo.PROTECTION_SIGNATURE_OR_SYSTEM:
 			        protctionLevel = "signatureOrSystem";
+			        view.setBackgroundColor(Color.YELLOW);
 			        break; 
 			    case PermissionInfo.PROTECTION_FLAG_SYSTEM:
 			        protctionLevel = "system";
+			        view.setBackgroundColor(Color.MAGENTA);
 			        break; 
 			    default: 
 			        protctionLevel = "<unknown>";
+			        view.setBackgroundColor(Color.GRAY);
 			        break;
 			}
 			

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ListActivity;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.PermissionInfo;
@@ -56,11 +55,15 @@ public class ViewAppDetailsActivity extends ListActivity {
 	public void setAppPermList(String packageName) {
 		appPermList = new ArrayList<PermissionInfo>();
 		try {
-			PackageInfo packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS);
-			if(packageInfo.permissions != null)
-				for(PermissionInfo permissionInfo : packageInfo.permissions)
-					if(permissionInfo != null)
-						appPermList.add(permissionInfo);
+			String[] resquestedPermissions = packageManager.getPackageInfo(packageName,
+					PackageManager.GET_META_DATA | 
+					PackageManager.GET_SHARED_LIBRARY_FILES | 
+					PackageManager.GET_UNINSTALLED_PACKAGES |
+					PackageManager.GET_PERMISSIONS).requestedPermissions;
+			if(resquestedPermissions != null)
+				for(String permission : resquestedPermissions)
+					if(permission != null)
+						appPermList.add(packageManager.getPermissionInfo(permission, PackageManager.GET_PERMISSIONS));
 		} catch (NameNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
