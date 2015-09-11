@@ -19,7 +19,7 @@
 	    android:layout_alignParentLeft="true"
 	    android:src="@drawable/ic_thumb_up_black_48dp" />
 	<ImageButton
-	    android:id="@+id/launch_app"
+	    android:id="@+id/launch_app_btn"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_alignParentBottom="true"
