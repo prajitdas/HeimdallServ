@@ -133,7 +133,7 @@ public class HMADBHelper extends SQLiteOpenHelper {
 	 */
 	public List<String> readAppPackageNames(SQLiteDatabase db) {
 		// Select app Query
-		String selectQuery = "SELECT * FROM " + getAppTableName() + " ORDER BY " + getAppName() + ";";
+		String selectQuery = "SELECT * FROM " + getAppTableName() + " ORDER BY " + getAppTableName() + "." + getAppName() + ";";
 
 		List<String> apps = new ArrayList<String>();
 		try{
@@ -147,6 +147,29 @@ public class HMADBHelper extends SQLiteOpenHelper {
             throw new SQLException("Could not find " + e);
 		}
 		return apps;
+	}
+
+	/**
+	 * Finds all apps and return their package names
+	 * @param db
+	 * @return
+	 */
+	public String readAppNameByPackageName(SQLiteDatabase db, String appPackageName) {
+		// Select app Query
+		String selectQuery = "SELECT " + getAppTableName() + "." + getAppName() + " FROM " + getAppTableName() + 
+				" WHERE " + getAppTableName() + "." + getAppPackageName() + " = '" + appPackageName +"';";
+		String app = new String();
+		try{
+			Cursor cursor = db.rawQuery(selectQuery, null);
+			if (cursor.moveToFirst()) {
+				do {
+					app = cursor.getString(0);
+				} while(cursor.moveToNext());
+			}
+		} catch(SQLException e) {
+            throw new SQLException("Could not find " + e);
+		}
+		return app;
 	}
 
 	/**

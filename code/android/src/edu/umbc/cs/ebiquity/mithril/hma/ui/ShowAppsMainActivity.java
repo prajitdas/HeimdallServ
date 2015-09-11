@@ -50,7 +50,7 @@ public class ShowAppsMainActivity extends ListActivity {
 		packageManager = getApplicationContext().getPackageManager();
 		setAppList();
 		// Bind to new adapter. 
-		setListAdapter(new AppListAdapter(ShowAppsMainActivity.this, R.layout.app_list_item, getAppList()));
+		setListAdapter(new AppListAdapter(ShowAppsMainActivity.this, R.layout.app_detail_list_item, getAppList()));
 	}
 	
 	@Override

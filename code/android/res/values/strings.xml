@@ -28,9 +28,10 @@
     <string name="pref_key_agree_to_send_data">SendData</string>
     <string name="send_data_to_server_settings_txt">Settings</string>
     <string name="no_description_available_txt">No description available!</string>
+    <string name="no_data">No permission information is available for this app or this app doesn\'t use any permissions!</string>
     
     <string name="title_activity_notification_view">Change Notification</string>
     <string name="title_activity_send_app_data_to_server">Send data to server</string>
     <string name="title_activity_show_apps_main">SyncAppDataActivity</string>
-    <string name="title_activity_view_app_details">App Details</string>
+    <string name="title_activity_view_app_details">App Details for</string>
 </resources>
