@@ -37,7 +37,7 @@ public class HMADBHelper extends SQLiteOpenHelper {
 	 */	
 	private final static String CREATE_APP_TABLE =  " CREATE TABLE " + getAppTableName() + " (" +
 			getId() + " INTEGER PRIMARY KEY AUTOINCREMENT, " + 
-			getAppPackageName() + " TEXT NOT NULL DEFAULT '*', " + 
+			getAppPackageName() + " TEXT UNIQUE NOT NULL DEFAULT '*', " + 
 			getAppName() + " TEXT NOT NULL DEFAULT '*', " +
 			getLastupdatedat() + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
 	
