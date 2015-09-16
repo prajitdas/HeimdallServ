@@ -70,25 +70,32 @@ public class AppPermListAdapter extends ArrayAdapter<PermissionInfo> {
 			String protctionLevel = new String();
 			
 			switch(data.protectionLevel) {
+				/**
+				 * Colors from: https://design.google.com/articles/evolving-the-google-identity/
+				 */
 				case PermissionInfo.PROTECTION_NORMAL:
 			        protctionLevel = "normal";
-			        view.setBackgroundColor(Color.GREEN);
+			        //Google Green
+			        view.setBackgroundColor(Color.parseColor("#34A853"));
 			        break; 
 			    case PermissionInfo.PROTECTION_DANGEROUS:
 			        protctionLevel = "dangerous";
-			        view.setBackgroundColor(Color.RED);
+			        //Google Red
+			        view.setBackgroundColor(Color.parseColor("#EA4335"));
 			        break; 
 			    case PermissionInfo.PROTECTION_SIGNATURE:
+			        //Google Blue
 			        protctionLevel = "signature";
-			        view.setBackgroundColor(Color.CYAN);
+			        view.setBackgroundColor(Color.parseColor("#4285F4"));
 			        break; 
 			    case PermissionInfo.PROTECTION_SIGNATURE_OR_SYSTEM:
+			        //Google Yellow
 			        protctionLevel = "signatureOrSystem";
-			        view.setBackgroundColor(Color.YELLOW);
+			        view.setBackgroundColor(Color.parseColor("#FBBC05"));
 			        break; 
 			    case PermissionInfo.PROTECTION_FLAG_SYSTEM:
 			        protctionLevel = "system";
-			        view.setBackgroundColor(Color.MAGENTA);
+			        view.setBackgroundColor(Color.CYAN);
 			        break; 
 			    default: 
 			        protctionLevel = "<unknown>";
