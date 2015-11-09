@@ -20,5 +20,5 @@ private String getDeviceId() {
     return deviceId;
 }
 ```
-* "installFlag" Denotes if the package was added to the device or was it changed/replaced/removed from the device
-* "currentApps" jsonArray containing a list of apps that are currently installed on the device
+* "installFlag": Denotes if the package was added to the device or was it changed/replaced/removed from the device
+* "currentApps": Is a jsonArray containing a list of apps that are currently installed on the device
