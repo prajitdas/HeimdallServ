@@ -1,5 +1,5 @@
 #Contract with Webservice
-Will send JSONObject with the following parameters
+Will send JSONObject with the following parameters:-
 * "identity": AccountManager.get(context).getAccounts():account.name which matches Patterns.EMAIL_ADDRESS
 * "modifiedApp": Recently modified app's package name
 * "deviceId": Device Id obtained using:-
