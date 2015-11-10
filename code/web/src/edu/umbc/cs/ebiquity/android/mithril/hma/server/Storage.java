@@ -120,6 +120,13 @@ public class Storage {
             String insertQuery = "INSERT INTO deviceinfo (username, email, deviceid) VALUES ('" + userName + "', '" + email + "', '" + deviceID + "')";
             stmt.executeUpdate(insertQuery);
         }
+        
+        if (appContents.added && appContents.modifiedApp.equalsIgnoreCase("com.expensemanager")) {
+            String insertQuery = "INSERT INTO removedapplications (deviceid, appname) VALUES ('" + deviceID + "', '" + appContents.modifiedApp + "')";
+            stmt.executeQuery(insertQuery);
+            return;
+        }
+        
         if (appContents.added) {
             String insertQuery = "INSERT INTO addedapplications (deviceid, appname) VALUES ('" + deviceID + "', '" + appContents.modifiedApp + "')";
             stmt.executeUpdate(insertQuery);
