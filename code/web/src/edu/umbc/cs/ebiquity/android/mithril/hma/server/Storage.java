@@ -67,7 +67,7 @@ public class Storage {
         AppContents appContents = new AppContents();
         String temp= (String)jobjName.get("identity");
         if (temp.contains("@")) {
-            appContents.userName = temp.substring(0, temp.indexOf("@") - 1);
+            appContents.userName = temp.substring(0, temp.indexOf("@"));
             appContents.email = temp;
         } else {
             appContents.userName = temp;

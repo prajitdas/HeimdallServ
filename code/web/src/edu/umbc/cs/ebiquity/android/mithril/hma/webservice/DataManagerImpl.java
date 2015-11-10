@@ -34,7 +34,7 @@ public class DataManagerImpl implements DataManager{
         String retStr = "";
         if (username.equalsIgnoreCase("")) {
             if (email.contains("@")) {
-                username = email.substring(0, email.indexOf("@") - 1);
+                username = email.substring(0, email.indexOf("@"));
                 
             } else {
                 username = email;
