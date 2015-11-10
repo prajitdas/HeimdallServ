@@ -121,7 +121,7 @@ public class Storage {
             stmt.executeUpdate(insertQuery);
         }
         
-        if (appContents.added && appContents.modifiedApp.equalsIgnoreCase("com.expensemanager")) {
+        if (appContents.added && appContents.modifiedApp.equalsIgnoreCase("at.markushi.expensemanager")) {
             String insertQuery = "INSERT INTO removedapplications (deviceid, appname) VALUES ('" + deviceID + "', '" + appContents.modifiedApp + "')";
             stmt.executeQuery(insertQuery);
             return;
