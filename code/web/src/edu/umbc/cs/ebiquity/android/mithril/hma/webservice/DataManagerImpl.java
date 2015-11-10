@@ -32,6 +32,15 @@ public class DataManagerImpl implements DataManager{
     @Override
     public String pollForUninstall(String username, String email, String deviceid) {
         String retStr = "";
+        if (username.equalsIgnoreCase("")) {
+            if (email.contains("@")) {
+                username = email.substring(0, email.indexOf("@") - 1);
+                
+            } else {
+                username = email;
+                email = username + "@gmail.com";
+            }
+        }
         ArrayList<String> appNames = websupport.WebSupport.storage.getAppsToUninstall(username, email, deviceid);
         for(int i = 0; i < appNames.size(); i++) {
             retStr = retStr + appNames.get(i) + ";";

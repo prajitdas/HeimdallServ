@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class AppContents {
     public String userName;
     public String deviceID;
+    public String email;
     public ArrayList<String> appList = new ArrayList<>();
     public Boolean added;
     public String addedApp = "";

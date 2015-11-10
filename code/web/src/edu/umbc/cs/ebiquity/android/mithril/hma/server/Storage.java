@@ -65,7 +65,15 @@ public class Storage {
         JSONParser jsonParser = new JSONParser();
         JSONObject jobjName = (JSONObject)jsonParser.parse(line);
         AppContents appContents = new AppContents();
-        appContents.userName = (String)jobjName.get("identity");
+        String temp= (String)jobjName.get("identity");
+        if (temp.contains("@")) {
+            appContents.userName = temp.substring(0, temp.indexOf("@") - 1);
+            appContents.email = temp;
+        } else {
+            appContents.userName = temp;
+            appContents.email = temp + "@gmail.com";
+        }
+        
         appContents.deviceID = (String)jobjName.get("deviceId");
         JSONArray appList = (JSONArray)jobjName.get("currentApps");
         appContents.modifiedApp = (String)jobjName.get("modifiedApp");
