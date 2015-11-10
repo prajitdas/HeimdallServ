@@ -12,6 +12,11 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -33,16 +38,29 @@ public class Storage {
 //    public HashMap<String,String> newAppInfo = new HashMap<>();
     private String permanentStorage = "per.storage";
     private String prevApp = "";
-    
+    private Connection con = null;
     public Storage() {
         try {
+            connectToDatabase();
             GetStoredDataFromStorage();
             getParsedData();
+            
         } catch (ParseException ex) {
+            Logger.getLogger(Storage.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Storage.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
             Logger.getLogger(Storage.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+    public void connectToDatabase() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.jdbc.Driver");
+      // Setup the connection with the DB
+        con = DriverManager.getConnection("jdbc:mysql://localhost/hma?", "root", "");
+                                                                
+        
+
+    }
     public AppContents getAppContentsFromJson(String line) throws ParseException {
         JSONParser jsonParser = new JSONParser();
         JSONObject jobjName = (JSONObject)jsonParser.parse(line);
@@ -50,7 +68,7 @@ public class Storage {
         appContents.userName = (String)jobjName.get("identity");
         appContents.deviceID = (String)jobjName.get("deviceId");
         JSONArray appList = (JSONArray)jobjName.get("currentApps");
-        
+        appContents.modifiedApp = (String)jobjName.get("modifiedApp");
         if (((String)jobjName.get("installFlag")).equals("true")) {
             appContents.added = Boolean.TRUE;
             appContents.addedApp = (String)jobjName.get("modifiedApp");
@@ -74,6 +92,56 @@ public class Storage {
     private String getUniqueID(String userName, String deviceId) {
         return userName + ":" + deviceId;
     }
+    public void putOrUpdateStorageDB(String line) {
+        try {
+            putOrUpdateStorageDB(getAppContentsFromJson(line));
+        } catch (ParseException ex) {
+            Logger.getLogger(Storage.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Storage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void putOrUpdateStorageDB(AppContents appContents) throws SQLException {
+        String userName = appContents.userName;
+        String deviceID = appContents.deviceID;
+        String email = userName + "@gmail.com";
+        String query = "SELECT * FROM deviceinfo WHERE username = '" + userName +"' AND email = '" + email + "' AND deviceid = '" + deviceID + "'";
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery(query);;
+        if (!rs.next()) {
+            String insertQuery = "INSERT INTO deviceinfo (username, email, deviceid) VALUES ('" + userName + "', '" + email + "', '" + deviceID + "')";
+            stmt.executeUpdate(insertQuery);
+        }
+        if (appContents.added) {
+            String insertQuery = "INSERT INTO addedapplications (deviceid, appname) VALUES ('" + deviceID + "', '" + appContents.modifiedApp + "')";
+            stmt.executeUpdate(insertQuery);
+        } else {
+            String removeQuery = "DELETE FROM removedapplications WHERE deviceid = '" + deviceID + "' AND appname = '" + appContents.modifiedApp + "'";
+            stmt.executeUpdate(removeQuery);
+        }
+        String insertQuery = "INSERT INTO applications (deviceid, appname) VALUES ('" + appContents.deviceID + "', '" + appContents.appList.get(0) + "')";
+        for (int i = 1; i < appContents.appList.size(); i++) {
+            insertQuery = insertQuery + ", ('" + appContents.deviceID + "', '" + appContents.appList.get(i) + "')";
+        }
+        stmt.executeUpdate(insertQuery);
+        
+    }
+        
+    public ArrayList<String> getAppsToUninstall(String username, String email, String deviceid) {
+        ArrayList<String> retArray = new ArrayList<>();
+        try {
+            Statement stmt = con.createStatement();
+            String query = "SELECT appname FROM removedapplications WHERE deviceid = '" + deviceid + "'";
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()) {
+                retArray.add(rs.getString("appname"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Storage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return retArray;
+    }
+    
     public void putOrUpdateStorage(AppContents appContents) {
         String userName = appContents.userName;
         String deviceID = appContents.deviceID;

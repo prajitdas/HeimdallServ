@@ -16,5 +16,6 @@ import javax.jws.soap.SOAPBinding;
 @SOAPBinding(style = SOAPBinding.Style.RPC)
 public interface DataManager {
     public String printString(String inp);
+    public String pollForUninstall(String username, String email, String deviceid);
     
 }

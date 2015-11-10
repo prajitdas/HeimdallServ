@@ -18,5 +18,6 @@ public class AppContents {
     public Boolean added;
     public String addedApp = "";
     public String removedApp = "";
+    public String modifiedApp = "";
         
 }
